@@ -1,0 +1,1 @@
+ct -pretty -strict -in-file container-linux-configs/c0-3f-d5-64-fd-54.conf -out-file ignition-configs/c0-3f-d5-64-fd-54.ign 
