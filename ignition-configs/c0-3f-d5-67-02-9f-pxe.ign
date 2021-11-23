@@ -28,7 +28,7 @@
         "filesystem": "root",
         "path": "/opt/ignition.json",
         "contents": {
-          "source": "https://raw.githubusercontent.com/jorisscheppers/inaetics-poc/main/ignition-configs/c0-3f-d5-64-fd-9f-disk.ign",
+          "source": "https://raw.githubusercontent.com/jorisscheppers/inaetics-poc/main/ignition-configs/c0-3f-d5-67-02-9f-disk.ign",
           "verification": {}
         },
         "mode": 777
