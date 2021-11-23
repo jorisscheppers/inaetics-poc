@@ -8,4 +8,4 @@ label flatcar
   menu default
   kernel flatcar_production/flatcar_production_pxe.vmlinuz
   initrd flatcar_production/flatcar_production_pxe_image.cpio.gz
-  append flatcar.first_boot=1 ignition.config.url=http://schepds.local/ignition-configs/c0-3f-d5-64-fd-54.ign
+  append flatcar.first_boot=1 ignition.config.url=http://schepds.local/ignition-configs/c0-3f-d5-64-fd-54-pxe.ign
