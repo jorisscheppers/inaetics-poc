@@ -40,7 +40,7 @@
       {
         "dropins": [
           {
-            "contents": "[Service]\nExecStart=\nExecStart=/usr/lib/coreos/etcd-wrapper $ETCD_OPTS \\\n  --listen-peer-urls=\"http://10.0.6.10:2380\" \\\n  --listen-client-urls=\"http://0.0.0.0:2379\" \\\n  --initial-advertise-peer-urls=\"http://10.0.6.10:2380\" \\\n  --initial-cluster=\"node1=http://10.0.6.10:2380\" \\\n  --initial-cluster-state=\"new\" \\\n  --initial-cluster-token=\"etcd-cluster-1\" \\\n  --advertise-client-urls=\"http://10.0.6.10:2379\"",
+            "contents": "[Service]\nExecStart=\nExecStart=/usr/lib/coreos/etcd-wrapper $ETCD_OPTS \\\n  --listen-peer-urls=\"http://10.0.6.10:2380\" \\\n  --listen-client-urls=\"http://0.0.0.0:2379\" \\\n  --initial-advertise-peer-urls=\"http://10.0.6.10:2380\" \\\n  --advertise-client-urls=\"http://10.0.6.10:2379\" \\\n  --discovery=\"https://discovery.etcd.io/aa88ee08fd2a67e414a940238ebc3e4c\"",
             "name": "20-clct-etcd-member.conf"
           }
         ],
@@ -50,7 +50,7 @@
       {
         "dropins": [
           {
-            "contents": "[Service]\nEnvironment=\"ETCD_NAME=node1\"  \n",
+            "contents": "[Service]\nEnvironment=\"ETCD_NAME=node1\"\n",
             "name": "conf1.conf"
           }
         ],

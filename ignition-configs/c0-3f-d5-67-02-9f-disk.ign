@@ -22,17 +22,38 @@
       }
     ]
   },
-  "storage": {},
+  "storage": {
+    "files": [
+      {
+        "filesystem": "root",
+        "path": "/etc/hostname",
+        "contents": {
+          "source": "data:,node3",
+          "verification": {}
+        },
+        "mode": 420
+      }
+    ]
+  },
   "systemd": {
     "units": [
       {
         "dropins": [
           {
-            "contents": "[Service]\nExecStart=\nExecStart=/usr/lib/coreos/etcd-wrapper $ETCD_OPTS \\\n  --name=\"node1\" \\\n  --listen-peer-urls=\"http://10.0.6.10:2380\" \\\n  --listen-client-urls=\"http://0.0.0.0:2379\" \\\n  --initial-advertise-peer-urls=\"http://10.0.6.10:2380\" \\\n  --initial-cluster=\"node1=http://10.0.6.10:2380,node2=http://10.0.6.11:2380,node3=http://10.0.6.12:2380\" \\\n  --initial-cluster-state=\"new\" \\\n  --initial-cluster-token=\"etcd-cluster-1\" \\\n  --advertise-client-urls=\"http://10.0.6.10:2379\"",
+            "contents": "[Service]\nExecStart=\nExecStart=/usr/lib/coreos/etcd-wrapper $ETCD_OPTS \\\n  --listen-peer-urls=\"http://10.0.6.12:2380\" \\\n  --listen-client-urls=\"http://0.0.0.0:2379\" \\\n  --initial-advertise-peer-urls=\"http://10.0.6.12:2380\" \\\n  --advertise-client-urls=\"http://10.0.6.12:2379\" \\\n  --discovery=\"https://discovery.etcd.io/aa88ee08fd2a67e414a940238ebc3e4c\"",
             "name": "20-clct-etcd-member.conf"
           }
         ],
         "enable": true,
+        "name": "etcd-member.service"
+      },
+      {
+        "dropins": [
+          {
+            "contents": "[Service]\nEnvironment=\"ETCD_NAME=node3\"\n",
+            "name": "conf1.conf"
+          }
+        ],
         "name": "etcd-member.service"
       }
     ]
