@@ -35,7 +35,7 @@
         "filesystem": "root",
         "path": "/etc/hostname",
         "contents": {
-          "source": "data:,node3",
+          "source": "data:,node2",
           "verification": {}
         },
         "mode": 420
@@ -57,7 +57,7 @@
       {
         "dropins": [
           {
-            "contents": "[Service]\nEnvironment=\"ETCD_NAME=node3\"\n",
+            "contents": "[Service]\nEnvironment=\"ETCD_NAME=node2\"\n",
             "name": "conf1.conf"
           }
         ],
