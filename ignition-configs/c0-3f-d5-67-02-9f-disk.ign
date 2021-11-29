@@ -76,7 +76,7 @@
       {
         "dropins": [
           {
-            "contents": "[Service]\nExecStartPre=/usr/bin/etcdctl set /coreos.com/network/config '{ \"Network\": \"100.100.0.0/16\" }'\n",
+            "contents": "[Service]\nExecStartPre=/usr/bin/etcdctl put /coreos.com/network/config '{ \"Network\": \"100.100.0.0/16\" }'\n",
             "name": "50-network-config.conf"
           }
         ],
