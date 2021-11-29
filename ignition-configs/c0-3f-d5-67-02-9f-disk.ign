@@ -57,11 +57,30 @@
       {
         "dropins": [
           {
+            "contents": "[Service]\nExecStart=\nExecStart=/usr/lib/coreos/flannel-wrapper $FLANNEL_OPTS",
+            "name": "20-clct-flannel.conf"
+          }
+        ],
+        "enable": true,
+        "name": "flanneld.service"
+      },
+      {
+        "dropins": [
+          {
             "contents": "[Service]\nEnvironment=\"ETCD_NAME=node2\"\n",
             "name": "conf1.conf"
           }
         ],
         "name": "etcd-member.service"
+      },
+      {
+        "dropins": [
+          {
+            "contents": "[Service]\nExecStartPre=/usr/bin/etcdctl set /coreos.com/network/config '{ \"Network\": \"100.100.0.0/16\" }'\n",
+            "name": "50-network-config.conf"
+          }
+        ],
+        "name": "flanneld.service"
       }
     ]
   }
