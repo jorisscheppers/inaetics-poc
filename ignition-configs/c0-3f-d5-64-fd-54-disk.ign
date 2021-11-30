@@ -57,7 +57,7 @@
       {
         "dropins": [
           {
-            "contents": "[Service]\nExecStart=\nExecStart=/usr/lib/coreos/flannel-wrapper $FLANNEL_OPTS \\\n  --etcd-endpoints=\"http://10.0.6.10:2379\" \\\n  --etcd-prefix=\"/coreos.com/network/config\"",
+            "contents": "[Service]\nExecStart=\nExecStart=/usr/lib/coreos/flannel-wrapper $FLANNEL_OPTS \\\n  --etcd-endpoints=\"http://10.0.6.10:2379\" \\\n  --etcd-prefix=\"/coreos.com/network\"",
             "name": "20-clct-flannel.conf"
           }
         ],
