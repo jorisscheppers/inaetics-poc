@@ -5,7 +5,7 @@
       "tls": {}
     },
     "timeouts": {},
-    "version": "2.2.0"
+    "version": "2.3.0"
   },
   "networkd": {
     "units": [
@@ -47,7 +47,7 @@
       {
         "dropins": [
           {
-            "contents": "[Service]\nExecStart=\nExecStart=/usr/lib/coreos/etcd-wrapper $ETCD_OPTS \\\n  --listen-peer-urls=\"http://10.0.6.10:2380\" \\\n  --listen-client-urls=\"http://0.0.0.0:2379\" \\\n  --initial-advertise-peer-urls=\"http://10.0.6.10:2380\" \\\n  --initial-cluster=\"node1=http://10.0.6.10:2380\" \\\n  --initial-cluster-state=\"new\" \\\n  --initial-cluster-token=\"etcd-cluster\" \\\n  --advertise-client-urls=\"http://10.0.6.10:2379\"",
+            "contents": "[Service]\nEnvironment=\"ETCD_IMAGE_TAG=v3.5.0\"\nExecStart=\nExecStart=/usr/lib/coreos/etcd-wrapper $ETCD_OPTS \\\n  --enable-v2=true \\\n  --listen-peer-urls=\"http://10.0.6.10:2380\" \\\n  --listen-client-urls=\"http://0.0.0.0:2379\" \\\n  --initial-advertise-peer-urls=\"http://10.0.6.10:2380\" \\\n  --initial-cluster=\"node1=http://10.0.6.10:2380\" \\\n  --initial-cluster-state=\"new\" \\\n  --initial-cluster-token=\"etcd-cluster\" \\\n  --advertise-client-urls=\"http://10.0.6.10:2379\"",
             "name": "20-clct-etcd-member.conf"
           }
         ],
@@ -67,7 +67,7 @@
       {
         "dropins": [
           {
-            "contents": "[Service]\nEnvironment=\"ETCD_NAME=node1\"\nEnvironment=\"ETCD_ENABLE_V2=true\"\n",
+            "contents": "[Service]\nEnvironment=\"ETCD_NAME=node1\"\n#Environment=\"ETCD_ENABLE_V2=true\"\n",
             "name": "conf1.conf"
           }
         ],
