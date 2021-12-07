@@ -57,6 +57,33 @@
           "verification": {}
         },
         "mode": 777
+      },
+      {
+        "filesystem": "root",
+        "path": "/opt/scripts/initialise-kubeadm.bash",
+        "contents": {
+          "source": "https://raw.githubusercontent.com/jorisscheppers/inaetics-poc/main/scripts/kubernetes/kubernetes-controller/initialise-kubeadm.bash",
+          "verification": {}
+        },
+        "mode": 777
+      },
+      {
+        "filesystem": "root",
+        "path": "/opt/scripts/initialise-calico.bash",
+        "contents": {
+          "source": "https://raw.githubusercontent.com/jorisscheppers/inaetics-poc/main/scripts/kubernetes/kubernetes-controller/initialise-calico.bash",
+          "verification": {}
+        },
+        "mode": 777
+      },
+      {
+        "filesystem": "root",
+        "path": "/opt/scripts/generate-worker-config.bash",
+        "contents": {
+          "source": "https://raw.githubusercontent.com/jorisscheppers/inaetics-poc/main/scripts/kubernetes/kubernetes-controller/generate-worker-config.bash",
+          "verification": {}
+        },
+        "mode": 777
       }
     ]
   },
