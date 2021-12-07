@@ -39,6 +39,24 @@
           "verification": {}
         },
         "mode": 420
+      },
+      {
+        "filesystem": "root",
+        "path": "/opt/scripts/init.bash",
+        "contents": {
+          "source": "https://raw.githubusercontent.com/jorisscheppers/inaetics-poc/main/scripts/kubernetes/init.bash",
+          "verification": {}
+        },
+        "mode": 777
+      },
+      {
+        "filesystem": "root",
+        "path": "/opt/scripts/download.bash",
+        "contents": {
+          "source": "https://raw.githubusercontent.com/jorisscheppers/inaetics-poc/main/scripts/kubernetes/download.bash",
+          "verification": {}
+        },
+        "mode": 777
       }
     ]
   },
@@ -47,7 +65,7 @@
       {
         "dropins": [
           {
-            "contents": "[Service]\nEnvironment=\"ETCD_IMAGE_TAG=v3.5.0\"\nExecStart=\nExecStart=/usr/lib/coreos/etcd-wrapper $ETCD_OPTS \\\n  --enable-v2=true \\\n  --listen-peer-urls=\"http://10.0.6.10:2380\" \\\n  --listen-client-urls=\"http://0.0.0.0:2379\" \\\n  --initial-advertise-peer-urls=\"http://10.0.6.10:2380\" \\\n  --initial-cluster=\"node1=http://10.0.6.10:2380\" \\\n  --initial-cluster-state=\"new\" \\\n  --initial-cluster-token=\"etcd-cluster\" \\\n  --advertise-client-urls=\"http://10.0.6.10:2379\"",
+            "contents": "[Service]\nEnvironment=\"ETCD_IMAGE_TAG=v3.5.0\"\nExecStart=\nExecStart=/usr/lib/coreos/etcd-wrapper $ETCD_OPTS \\\n  --listen-peer-urls=\"http://10.0.6.10:2380\" \\\n  --listen-client-urls=\"http://0.0.0.0:2379\" \\\n  --initial-advertise-peer-urls=\"http://10.0.6.10:2380\" \\\n  --initial-cluster=\"node1=http://10.0.6.10:2380\" \\\n  --initial-cluster-state=\"new\" \\\n  --initial-cluster-token=\"etcd-cluster\" \\\n  --advertise-client-urls=\"http://10.0.6.10:2379\"",
             "name": "20-clct-etcd-member.conf"
           }
         ],
@@ -57,30 +75,11 @@
       {
         "dropins": [
           {
-            "contents": "[Service]\nExecStart=\nExecStart=/usr/lib/coreos/flannel-wrapper $FLANNEL_OPTS \\\n  --etcd-endpoints=\"http://10.0.6.10:2379\" \\\n  --etcd-prefix=\"/coreos.com/network\"",
-            "name": "20-clct-flannel.conf"
-          }
-        ],
-        "enable": true,
-        "name": "flanneld.service"
-      },
-      {
-        "dropins": [
-          {
-            "contents": "[Service]\nEnvironment=\"ETCD_NAME=node1\"\n#Environment=\"ETCD_ENABLE_V2=true\"\n",
+            "contents": "[Service]\nEnvironment=\"ETCD_NAME=node1\"\n",
             "name": "conf1.conf"
           }
         ],
         "name": "etcd-member.service"
-      },
-      {
-        "dropins": [
-          {
-            "contents": "[Service]\nEnvironment=\"ETCDCTL_API=2\"\nExecStartPre=/usr/bin/etcdctl set /coreos.com/network/config '{ \"Network\": \"100.100.0.0/16\" }'\n",
-            "name": "50-network-config.conf"
-          }
-        ],
-        "name": "flanneld.service"
       }
     ]
   }
