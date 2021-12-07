@@ -87,27 +87,5 @@
       }
     ]
   },
-  "systemd": {
-    "units": [
-      {
-        "dropins": [
-          {
-            "contents": "[Service]\nEnvironment=\"ETCD_IMAGE_TAG=v3.5.0\"\nExecStart=\nExecStart=/usr/lib/coreos/etcd-wrapper $ETCD_OPTS \\\n  --listen-peer-urls=\"http://10.0.6.10:2380\" \\\n  --listen-client-urls=\"http://0.0.0.0:2379\" \\\n  --initial-advertise-peer-urls=\"http://10.0.6.10:2380\" \\\n  --initial-cluster=\"node1=http://10.0.6.10:2380\" \\\n  --initial-cluster-state=\"new\" \\\n  --initial-cluster-token=\"etcd-cluster\" \\\n  --advertise-client-urls=\"http://10.0.6.10:2379\"",
-            "name": "20-clct-etcd-member.conf"
-          }
-        ],
-        "enable": true,
-        "name": "etcd-member.service"
-      },
-      {
-        "dropins": [
-          {
-            "contents": "[Service]\nEnvironment=\"ETCD_NAME=node1\"\n",
-            "name": "conf1.conf"
-          }
-        ],
-        "name": "etcd-member.service"
-      }
-    ]
-  }
+  "systemd": {}
 }
