@@ -35,46 +35,28 @@
         "filesystem": "root",
         "path": "/etc/hostname",
         "contents": {
-          "source": "data:,node1",
+          "source": "data:,node1.cluster.local",
           "verification": {}
         },
         "mode": 420
       },
       {
         "filesystem": "root",
-        "path": "/opt/scripts/init.bash",
+        "path": "/opt/scripts/k8s/init.bash",
         "contents": {
           "source": "https://raw.githubusercontent.com/jorisscheppers/inaetics-poc/main/scripts/kubernetes/init.bash",
           "verification": {}
         },
-        "mode": 777
+        "mode": 555
       },
       {
         "filesystem": "root",
-        "path": "/opt/scripts/download.bash",
+        "path": "/opt/scripts/k8s/initialise-controller.bash",
         "contents": {
-          "source": "https://raw.githubusercontent.com/jorisscheppers/inaetics-poc/main/scripts/kubernetes/download.bash",
+          "source": "https://raw.githubusercontent.com/jorisscheppers/inaetics-poc/main/scripts/kubernetes/kubernetes-controller/initialise-controller.bash",
           "verification": {}
         },
-        "mode": 777
-      },
-      {
-        "filesystem": "root",
-        "path": "/opt/scripts/initialise-kubeadm.bash",
-        "contents": {
-          "source": "https://raw.githubusercontent.com/jorisscheppers/inaetics-poc/main/scripts/kubernetes/kubernetes-controller/initialise-kubeadm.bash",
-          "verification": {}
-        },
-        "mode": 777
-      },
-      {
-        "filesystem": "root",
-        "path": "/opt/scripts/initialise-calico.bash",
-        "contents": {
-          "source": "https://raw.githubusercontent.com/jorisscheppers/inaetics-poc/main/scripts/kubernetes/kubernetes-controller/initialise-calico.bash",
-          "verification": {}
-        },
-        "mode": 777
+        "mode": 555
       },
       {
         "filesystem": "root",
@@ -83,7 +65,7 @@
           "source": "https://raw.githubusercontent.com/jorisscheppers/inaetics-poc/main/scripts/kubernetes/kubernetes-controller/generate-worker-config.bash",
           "verification": {}
         },
-        "mode": 777
+        "mode": 555
       }
     ]
   },
