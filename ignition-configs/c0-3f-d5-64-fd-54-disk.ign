@@ -47,7 +47,7 @@
           "source": "https://raw.githubusercontent.com/jorisscheppers/inaetics-poc/main/scripts/kubernetes/init.bash",
           "verification": {}
         },
-        "mode": 550
+        "mode": 555
       },
       {
         "filesystem": "root",
@@ -56,7 +56,7 @@
           "source": "https://raw.githubusercontent.com/jorisscheppers/inaetics-poc/main/scripts/kubernetes/kubernetes-controller/initialise-controller.bash",
           "verification": {}
         },
-        "mode": 550
+        "mode": 555
       }
     ]
   },

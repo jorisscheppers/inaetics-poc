@@ -42,21 +42,21 @@
       },
       {
         "filesystem": "root",
-        "path": "/opt/scripts/k8s/init.bash",
+        "path": "/opt/scripts/k3s/init.bash",
         "contents": {
-          "source": "https://raw.githubusercontent.com/jorisscheppers/inaetics-poc/main/scripts/kubernetes/init.bash",
+          "source": "https://raw.githubusercontent.com/jorisscheppers/inaetics-poc/main/scripts/k3s/init.bash",
           "verification": {}
         },
-        "mode": 550
+        "mode": 555
       },
       {
         "filesystem": "root",
-        "path": "/opt/scripts/k8s/join-worker.bash",
+        "path": "/opt/scripts/k3s/join-worker.bash",
         "contents": {
-          "source": "https://raw.githubusercontent.com/jorisscheppers/inaetics-poc/main/scripts/kubernetes/kubernetes-worker/join-worker.bash",
+          "source": "https://raw.githubusercontent.com/jorisscheppers/inaetics-poc/main/scripts/k3s/join-worker.bash",
           "verification": {}
         },
-        "mode": 550
+        "mode": 555
       }
     ]
   },
