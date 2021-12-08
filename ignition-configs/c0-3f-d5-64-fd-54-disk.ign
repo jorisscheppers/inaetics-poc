@@ -47,7 +47,7 @@
           "source": "https://raw.githubusercontent.com/jorisscheppers/inaetics-poc/main/scripts/kubernetes/init.bash",
           "verification": {}
         },
-        "mode": 555
+        "mode": 550
       },
       {
         "filesystem": "root",
@@ -56,16 +56,7 @@
           "source": "https://raw.githubusercontent.com/jorisscheppers/inaetics-poc/main/scripts/kubernetes/kubernetes-controller/initialise-controller.bash",
           "verification": {}
         },
-        "mode": 555
-      },
-      {
-        "filesystem": "root",
-        "path": "/opt/scripts/generate-worker-config.bash",
-        "contents": {
-          "source": "https://raw.githubusercontent.com/jorisscheppers/inaetics-poc/main/scripts/kubernetes/kubernetes-controller/generate-worker-config.bash",
-          "verification": {}
-        },
-        "mode": 555
+        "mode": 550
       }
     ]
   },

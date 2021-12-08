@@ -35,4 +35,4 @@ chmod +x {kubeadm,kubelet,kubectl}
 mv {kubeadm,kubelet,kubectl} $DOWNLOAD_DIR/
 
 systemctl enable --now kubelet
-systemctl status kubelet
+#systemctl status kubelet

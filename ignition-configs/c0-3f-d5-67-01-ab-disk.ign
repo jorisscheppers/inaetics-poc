@@ -10,7 +10,7 @@
   "networkd": {
     "units": [
       {
-        "contents": "[Match]\nName=eno1\n\n[Network]\nDNS=10.0.1.53\nAddress=10.0.6.12/20\nGateway=10.0.1.1\n",
+        "contents": "[Match]\nName=eno1\n\n[Network]\nDNS=10.0.1.53\nAddress=10.0.6.12/20\nGateway=10.0.1.1",
         "name": "00-eno1.network"
       }
     ]
@@ -35,34 +35,30 @@
         "filesystem": "root",
         "path": "/etc/hostname",
         "contents": {
-          "source": "data:,node3",
+          "source": "data:,node3.cluster.local",
           "verification": {}
         },
         "mode": 420
+      },
+      {
+        "filesystem": "root",
+        "path": "/opt/scripts/k8s/init.bash",
+        "contents": {
+          "source": "https://raw.githubusercontent.com/jorisscheppers/inaetics-poc/main/scripts/kubernetes/init.bash",
+          "verification": {}
+        },
+        "mode": 550
+      },
+      {
+        "filesystem": "root",
+        "path": "/opt/scripts/k8s/join-worker.bash",
+        "contents": {
+          "source": "https://raw.githubusercontent.com/jorisscheppers/inaetics-poc/main/scripts/kubernetes/kubernetes-worker/join-worker.bash",
+          "verification": {}
+        },
+        "mode": 550
       }
     ]
   },
-  "systemd": {
-    "units": [
-      {
-        "dropins": [
-          {
-            "contents": "[Service]\nExecStart=\nExecStart=/usr/lib/coreos/flannel-wrapper $FLANNEL_OPTS \\\n  --etcd-endpoints=\"http://10.0.6.10:2379\" \\\n  --etcd-prefix=\"/coreos.com/network\"",
-            "name": "20-clct-flannel.conf"
-          }
-        ],
-        "enable": true,
-        "name": "flanneld.service"
-      },
-      {
-        "dropins": [
-          {
-            "contents": "[Service]\nEnvironment=ETCDCTL_API=2\n# ExecStartPre=/usr/bin/etcdctl set /coreos.com/network/config '{ \"Network\": \"100.100.0.0/16\" }'\n",
-            "name": "50-network-config.conf"
-          }
-        ],
-        "name": "flanneld.service"
-      }
-    ]
-  }
+  "systemd": {}
 }
