@@ -1,5 +1,5 @@
 #DOWNLOAD FLUX
-curl -s https://fluxcd.io/install.sh | sudo bash
+#curl -s https://fluxcd.io/install.sh | sudo bash
 
 #ENABLE SYSTEM CAPABILITIES
 systemctl enable docker
