@@ -44,7 +44,7 @@
         "filesystem": "root",
         "path": "/opt/scripts/k8s/init.bash",
         "contents": {
-          "source": "https://raw.githubusercontent.com/jorisscheppers/inaetics-poc/main/scripts/kubernetes/init.bash",
+          "source": "https://raw.githubusercontent.com/jorisscheppers/inaetics-poc/main/scripts/k8s/init.bash",
           "verification": {}
         },
         "mode": 555
