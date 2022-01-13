@@ -10,7 +10,7 @@
   "networkd": {
     "units": [
       {
-        "contents": "[Match]\nName=eno1\n[Network]\nDNS=10.0.1.53\nAddress=10.0.6.10/20\nGateway=10.0.1.1",
+        "contents": "[Match]\nName=eno1\n[Network]\nDNS=10.0.1.53\nAddress=10.0.6.10/20\nGateway=10.0.1.1\n",
         "name": "00-eno1.network"
       }
     ]
@@ -51,5 +51,13 @@
       }
     ]
   },
-  "systemd": {}
+  "systemd": {
+    "units": [
+      {
+        "contents": "[Unit]\nDescription=Init k8s\nAfter=network.target\n\n[Service]\nType=oneshot\nExecStart=/opt/scripts/k8s/init.bash\nRemainAfterExit=true\nStandardOutput=journal\n\n[Install]\nWantedBy=multi-user.target",
+        "enabled": true,
+        "name": "installer.service"
+      }
+    ]
+  }
 }
