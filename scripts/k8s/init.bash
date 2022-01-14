@@ -30,7 +30,8 @@ CNI_VERSION="v1.0.1"
 CRICTL_VERSION="v1.22.0"
 RELEASE_VERSION="v0.12.0"
 DOWNLOAD_DIR=/opt/bin
-RELEASE="$(curl -sSL https://dl.k8s.io/release/stable.txt)"
+#RELEASE="$(curl -sSL https://dl.k8s.io/release/stable.txt)"
+RELEASE="v1.23.1"
 
 alias curl='curl -sSL'
 curl "https://github.com/containernetworking/plugins/releases/download/${CNI_VERSION}/cni-plugins-linux-amd64-${CNI_VERSION}.tgz" | tar -C /opt/cni/bin -xz
