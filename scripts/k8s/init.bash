@@ -1,10 +1,13 @@
 #!/bin/bash
 #DOWNLOAD FLUX
-curl -s https://fluxcd.io/install.sh | sudo bash
+echo "Installing Flux"
+#curl -s https://fluxcd.io/install.sh | sudo bash
 
 #ENABLE SYSTEM CAPABILITIES
-systemctl enable docker
-modprobe br_netfilter
+echo "Prepping filesystem and writing k8s.conf files"
+
+mkdir -p /opt/cni/bin
+mkdir -p /etc/systemd/system/kubelet.service.d
 
 touch /etc/modules-load.d/k8s.conf
 cat <<EOF | tee /etc/modules-load.d/k8s.conf
@@ -13,20 +16,21 @@ EOF
 
 touch /etc/sysctl.d/k8s.conf
 cat <<EOF | tee /etc/sysctl.d/k8s.conf
-net.bridge.bridge-nf-call-ip6tables = 1
 net.bridge.bridge-nf-call-iptables = 1
 EOF
+
+echo "Enabling system capabilities"
+systemctl enable docker
+modprobe br_netfilter
 sysctl --system
 
 #DOWNLOAD NECESSARY BINARIES + CONFIGS
+echo "Downloading k8s binaries"
 CNI_VERSION="v1.0.1"
 CRICTL_VERSION="v1.22.0"
 RELEASE_VERSION="v0.12.0"
 DOWNLOAD_DIR=/opt/bin
 RELEASE="$(curl -sSL https://dl.k8s.io/release/stable.txt)"
-
-mkdir -p /opt/cni/bin
-mkdir -p /etc/systemd/system/kubelet.service.d
 
 alias curl='curl -sSL'
 curl "https://github.com/containernetworking/plugins/releases/download/${CNI_VERSION}/cni-plugins-linux-amd64-${CNI_VERSION}.tgz" | tar -C /opt/cni/bin -xz
