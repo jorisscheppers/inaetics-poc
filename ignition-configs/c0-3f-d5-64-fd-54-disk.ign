@@ -10,7 +10,7 @@
   "networkd": {
     "units": [
       {
-        "contents": "[Match]\nName=eno1\n[Network]\nDNS=10.0.1.53\nAddress=10.0.6.10/20\nGateway=10.0.1.1\n",
+        "contents": "[Match]\nName=eno1\n[Network]\nDNS=10.0.1.53\nAddress=10.0.6.10/20\nGateway=10.0.1.1\nLinkLocalAddressing=no\nIPv6AcceptRA=no\n",
         "name": "00-eno1.network"
       }
     ]
