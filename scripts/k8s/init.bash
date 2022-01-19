@@ -33,7 +33,7 @@ DOWNLOAD_DIR=/opt/bin
 #DEBUG
 echo "DEBUG"
 nslookup dl.k8s.io
-curl -vsSL https://dl.k8s.io/release/stable.txt)
+curl -vsSL https://dl.k8s.io/release/stable.txt
 echo "/DEBUG"
 #/DEBUG
 RELEASE="$(curl -sSL https://dl.k8s.io/release/stable.txt)"
