@@ -1,12 +1,12 @@
 #!/bin/bash
 #DOWNLOAD FLUX
-echo "Installing Flux"
+#echo "Installing Flux"
 #curl -s https://fluxcd.io/install.sh | sudo bash
 
 #ENABLE SYSTEM CAPABILITIES
-echo "Prepping filesystem and writing k8s.conf files"
+echo "BEGIN Prepping filesystem and writing k8s conf files"
 
-mkdir -p /opt/cni/bin
+#KUBELET
 mkdir -p /etc/systemd/system/kubelet.service.d
 
 touch /etc/modules-load.d/k8s.conf
@@ -19,21 +19,64 @@ cat <<EOF | tee /etc/sysctl.d/k8s.conf
 net.bridge.bridge-nf-call-iptables = 1
 EOF
 
-echo "Enabling system capabilities"
 systemctl enable docker
 modprobe br_netfilter
 sysctl --system
 
+#CNI
+mkdir -p /opt/cni/bin
+
+cat <<EOF | tee ~/calico.yaml
+# Source: https://docs.projectcalico.org/manifests/custom-resources.yaml
+apiVersion: operator.tigera.io/v1
+kind: Installation
+metadata:
+  name: default
+spec:
+  # Configures Calico networking.
+  calicoNetwork:
+    # Note: The ipPools section cannot be modified post-install.
+    ipPools:
+    - blockSize: 26
+      cidr: 192.168.0.0/16
+      encapsulation: VXLANCrossSubnet
+      natOutgoing: Enabled
+      nodeSelector: all()
+  flexVolumePath: /opt/libexec/kubernetes/kubelet-plugins/volume/exec/
+EOF
+
+#KUBEADM
+mkdir -p $HOME/.kube
+
+touch ~/kubeadm-config.yaml
+cat <<EOF | tee ~/kubeadm-config.yaml
+apiVersion: kubeadm.k8s.io/v1beta2
+kind: InitConfiguration
+nodeRegistration:
+  kubeletExtraArgs:
+    volume-plugin-dir: "/opt/libexec/kubernetes/kubelet-plugins/volume/exec/"
+---
+apiVersion: kubeadm.k8s.io/v1beta2
+kind: ClusterConfiguration
+networking:
+  podSubnet: 192.168.0.0/16
+controllerManager:
+  extraArgs:
+    flex-volume-plugin-dir: "/opt/libexec/kubernetes/kubelet-plugins/volume/exec/"
+EOF
+
+echo "END Prepping filesystem and writing k8s conf files"
+
+
 #DOWNLOAD NECESSARY BINARIES + CONFIGS
-echo "Downloading k8s binaries"
+echo "BEGIN Downloading binaries and configs"
+
 CNI_VERSION="v1.0.1"
 CRICTL_VERSION="v1.22.0"
 RELEASE_VERSION="v0.12.0"
 DOWNLOAD_DIR=/opt/bin
 #DEBUG
-echo "DEBUG"
 nslookup dl.k8s.io
-echo "/DEBUG"
 #/DEBUG
 RELEASE="$(curl -sSL https://dl.k8s.io/release/stable.txt)"
 #RELEASE="v1.23.1"
@@ -47,5 +90,24 @@ curl -sSL --remote-name-all https://storage.googleapis.com/kubernetes-release/re
 chmod +x {kubeadm,kubelet,kubectl}
 mv {kubeadm,kubelet,kubectl} $DOWNLOAD_DIR/
 
+echo "END Downloading binaries and configs"
+
+
+#START SERVICES
+echo "BEGIN Starting services"
+
+kubeadm config images pull
+kubeadm init --config kubeadm-config.yaml
+cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
+
 systemctl enable --now kubelet
 #systemctl status kubelet
+
+#CREATE CNI
+kubectl create -f https://docs.projectcalico.org/manifests/tigera-operator.yaml
+kubectl apply -f calico.yaml
+kubectl taint nodes --all node-role.kubernetes.io/master-
+kubectl get pods -A
+kubectl get nodes -o wide
+
+echo "END Starting services"
