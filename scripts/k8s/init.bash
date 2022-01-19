@@ -30,8 +30,14 @@ CNI_VERSION="v1.0.1"
 CRICTL_VERSION="v1.22.0"
 RELEASE_VERSION="v0.12.0"
 DOWNLOAD_DIR=/opt/bin
+#DEBUG
+echo "DEBUG"
+nslookup dl.k8s.io
+curl -vsSL https://dl.k8s.io/release/stable.txt)
+echo "/DEBUG"
+#/DEBUG
 RELEASE="$(curl -sSL https://dl.k8s.io/release/stable.txt)"
-RELEASE="v1.23.1"
+#RELEASE="v1.23.1"
 
 curl -sSL "https://github.com/containernetworking/plugins/releases/download/${CNI_VERSION}/cni-plugins-linux-amd64-${CNI_VERSION}.tgz" | tar -C /opt/cni/bin -xz
 curl -sSL "https://github.com/kubernetes-sigs/cri-tools/releases/download/${CRICTL_VERSION}/crictl-${CRICTL_VERSION}-linux-amd64.tar.gz" | tar -C $DOWNLOAD_DIR -xz
