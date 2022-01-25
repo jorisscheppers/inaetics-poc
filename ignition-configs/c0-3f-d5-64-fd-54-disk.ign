@@ -54,7 +54,7 @@
   "systemd": {
     "units": [
       {
-        "contents": "[Unit]\nDescription=Init k8s\nAfter=multi-user.target\n\n[Service]\nType=oneshot\nExecStart=/opt/scripts/k8s/init.bash\nRemainAfterExit=true\nStandardOutput=journal\nEnvironment=PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/opt/bin\n\n[Install]\nWantedBy=multi-user.target",
+        "contents": "[Unit]\nDescription=Init k8s\nAfter=multi-user.target\n\n[Service]\nType=oneshot\nExecStart=/opt/scripts/k8s/init.bash\nRemainAfterExit=true\nStandardOutput=journal\nEnvironment=PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/opt/bin\nEnvironment=KUBECONFIG=/.kube/config\n\n[Install]\nWantedBy=multi-user.target",
         "enabled": true,
         "name": "installer.service"
       }

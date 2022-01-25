@@ -9,7 +9,8 @@ echo "BEGIN Prepping filesystem and writing k8s conf files"
 mkdir /config
 mkdir -p /etc/systemd/system/kubelet.service.d
 mkdir -p /opt/cni/bin
-mkdir -p $HOME/.kube
+mkdir -p /.kube
+mkdir -p /home/core/.kube
 
 #KUBELET
 touch /etc/modules-load.d/k8s.conf
@@ -97,14 +98,15 @@ echo "END Downloading binaries and configs"
 #START SERVICES
 echo "BEGIN Starting services"
 
-#   Kubelet
-systemctl enable --now kubelet
-#systemctl status kubelet
-
 #  kubeadm init
 kubeadm init --config /config/kubeadm-config.yaml
 # ??? WHY COPY THIS FILE TO $HOME ???
-cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
+cp -i /etc/kubernetes/admin.conf /.kube/config
+cp -i /etc/kubernetes/admin.conf /home/core/.kube/config
+
+#   Kubelet
+systemctl enable --now kubelet
+#systemctl status kubelet
 
 #CREATE CNI
 kubectl create -f https://docs.projectcalico.org/manifests/tigera-operator.yaml
