@@ -6,9 +6,12 @@
 #ENABLE SYSTEM CAPABILITIES
 echo "BEGIN Prepping filesystem and writing k8s conf files"
 
-#KUBELET
+mkdir /config
 mkdir -p /etc/systemd/system/kubelet.service.d
+mkdir -p /opt/cni/bin
+mkdir -p $HOME/.kube
 
+#KUBELET
 touch /etc/modules-load.d/k8s.conf
 cat <<EOF | tee /etc/modules-load.d/k8s.conf
 br_netfilter
@@ -24,9 +27,7 @@ modprobe br_netfilter
 sysctl --system
 
 #CNI
-mkdir -p /opt/cni/bin
-
-cat <<EOF | tee ~/calico.yaml
+cat <<EOF | tee /config/calico.yaml
 # Source: https://docs.projectcalico.org/manifests/custom-resources.yaml
 apiVersion: operator.tigera.io/v1
 kind: Installation
@@ -46,10 +47,8 @@ spec:
 EOF
 
 #KUBEADM
-mkdir -p $HOME/.kube
-
-touch ~/kubeadm-config.yaml
-cat <<EOF | tee ~/kubeadm-config.yaml
+touch /config/kubeadm-config.yaml
+cat <<EOF | tee /config/kubeadm-config.yaml
 apiVersion: kubeadm.k8s.io/v1beta2
 kind: InitConfiguration
 nodeRegistration:
@@ -90,6 +89,8 @@ curl -sSL --remote-name-all https://storage.googleapis.com/kubernetes-release/re
 chmod +x {kubeadm,kubelet,kubectl}
 mv {kubeadm,kubelet,kubectl} $DOWNLOAD_DIR/
 
+kubeadm config images pull
+
 echo "END Downloading binaries and configs"
 
 
@@ -101,13 +102,13 @@ systemctl enable --now kubelet
 #systemctl status kubelet
 
 #  kubeadm init
-kubeadm config images pull
-kubeadm init --config kubeadm-config.yaml
+kubeadm init --config /config/kubeadm-config.yaml
+# ??? WHY COPY THIS FILE TO $HOME ???
 cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
 
 #CREATE CNI
 kubectl create -f https://docs.projectcalico.org/manifests/tigera-operator.yaml
-kubectl apply -f calico.yaml
+kubectl apply -f /config/calico.yaml
 kubectl taint nodes --all node-role.kubernetes.io/master-
 kubectl get pods -A
 kubectl get nodes -o wide
