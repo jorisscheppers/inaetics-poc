@@ -96,12 +96,14 @@ echo "END Downloading binaries and configs"
 #START SERVICES
 echo "BEGIN Starting services"
 
+#   Kubelet
+systemctl enable --now kubelet
+#systemctl status kubelet
+
+#  kubeadm init
 kubeadm config images pull
 kubeadm init --config kubeadm-config.yaml
 cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
-
-systemctl enable --now kubelet
-#systemctl status kubelet
 
 #CREATE CNI
 kubectl create -f https://docs.projectcalico.org/manifests/tigera-operator.yaml
