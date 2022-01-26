@@ -10,7 +10,7 @@
   "networkd": {
     "units": [
       {
-        "contents": "[Match]\nName=eno1\n[Network]\nDNS=10.0.1.53\nAddress=10.0.6.10/20\nGateway=10.0.1.1\nLinkLocalAddressing=no\nIPv6AcceptRA=no\n",
+        "contents": "[Match]\nName=eno1\n[Network]\nDNS=10.0.1.53\nAddress=10.0.6.10/20\nGateway=10.0.1.1\n",
         "name": "00-eno1.network"
       }
     ]
@@ -32,16 +32,6 @@
   "storage": {
     "files": [
       {
-        "filesystem": "OEM",
-        "path": "/grub.cfg",
-        "append": true,
-        "contents": {
-          "source": "data:,set%20linux_append%3D%22%24linux_append%20ipv6.disable%3D1%22%0A",
-          "verification": {}
-        },
-        "mode": 420
-      },
-      {
         "filesystem": "root",
         "path": "/etc/hostname",
         "contents": {
@@ -58,15 +48,6 @@
           "verification": {}
         },
         "mode": 555
-      }
-    ],
-    "filesystems": [
-      {
-        "mount": {
-          "device": "/dev/disk/by-label/OEM",
-          "format": "btrfs"
-        },
-        "name": "OEM"
       }
     ]
   },
