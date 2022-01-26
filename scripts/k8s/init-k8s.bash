@@ -19,6 +19,7 @@ CNI_VERSION="v0.8.2"
 CRICTL_VERSION="v1.17.0"
 RELEASE_VERSION="v0.4.0"
 DOWNLOAD_DIR=/opt/bin
+nslookup dl.k8s.io
 RELEASE="$(curl -sSL https://dl.k8s.io/release/stable.txt)"
 
 mkdir -p /opt/cni/bin
