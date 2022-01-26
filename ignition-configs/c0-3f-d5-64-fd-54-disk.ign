@@ -53,7 +53,7 @@
         "filesystem": "root",
         "path": "/opt/scripts/k8s/init-k8s.bash",
         "contents": {
-          "source": "https://raw.githubusercontent.com/jorisscheppers/inaetics-poc/main/scripts/k8s/init.bash",
+          "source": "https://raw.githubusercontent.com/jorisscheppers/inaetics-poc/main/scripts/k8s/init-k8s.bash",
           "verification": {}
         },
         "mode": 555
