@@ -7,14 +7,7 @@
     "timeouts": {},
     "version": "2.3.0"
   },
-  "networkd": {
-    "units": [
-      {
-        "contents": "[Match]\nName=eno1\n[Network]\nAddress=10.0.6.10/20\nGateway=10.0.1.1\nDNS=10.0.1.53\n",
-        "name": "00-eno1.network"
-      }
-    ]
-  },
+  "networkd": {},
   "passwd": {
     "users": [
       {
