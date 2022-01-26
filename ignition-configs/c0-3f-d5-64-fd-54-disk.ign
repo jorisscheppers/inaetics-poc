@@ -10,7 +10,7 @@
   "networkd": {
     "units": [
       {
-        "contents": "[Match]\nName=eno1\n[Network]\nDNS=10.0.1.53\nAddress=10.0.6.10/20\nGateway=10.0.1.1\n",
+        "contents": "[Match]\nName=eno1\n[Network]\nAddress=10.0.6.10/20\nGateway=10.0.1.1\nDNS=10.0.1.53\n",
         "name": "00-eno1.network"
       }
     ]
@@ -63,7 +63,7 @@
   "systemd": {
     "units": [
       {
-        "contents": "[Unit]\nDescription=Init k8s\nAfter=multi-user.target\n\n[Service]\nType=oneshot\nExecStart=/opt/scripts/k8s/init-k8s.bash\nRemainAfterExit=true\nStandardOutput=journal\nEnvironment=PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/opt/bin\nEnvironment=KUBECONFIG=/.kube/config\n\n[Install]\nWantedBy=multi-user.target",
+        "contents": "[Unit]\nDescription=Init k8s\nAfter=multi-user.target\n\n[Service]\nType=oneshot\nExecStart=/opt/scripts/k8s/init-k8s.bash\nRemainAfterExit=true\nStandardOutput=journal\n#Environment=PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/opt/bin\n#Environment=KUBECONFIG=/.kube/config\n\n[Install]\nWantedBy=multi-user.target",
         "enabled": true,
         "name": "installer.service"
       }
