@@ -25,8 +25,8 @@ curl https://raw.githubusercontent.com/jorisscheppers/inaetics-poc/main/PXE/pxel
 
 #memdisk files
 cd /var/ftpd/memdisk
-curl https://github.com/jorisscheppers/inaetics-poc/blob/79259e8c64cdff255bf430234ac622a9424b5ca4/PXE/memdisk.tar
-tar -xz memdisk.tar
+curl https://github.com/jorisscheppers/inaetics-poc/raw/79259e8c64cdff255bf430234ac622a9424b5ca4/PXE/memdisk.tar
+tar -xzf memdisk.tar
 
 #flatcar linux latest stable release
 cd /var/ftpd/flatcar_production
