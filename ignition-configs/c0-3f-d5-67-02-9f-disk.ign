@@ -7,14 +7,7 @@
     "timeouts": {},
     "version": "2.3.0"
   },
-  "networkd": {
-    "units": [
-      {
-        "contents": "[Match]\nName=eno1\n\n[Network]\nDNS=10.0.1.53\nAddress=10.0.6.11/20\nGateway=10.0.1.1",
-        "name": "00-eno1.network"
-      }
-    ]
-  },
+  "networkd": {},
   "passwd": {
     "users": [
       {
@@ -44,16 +37,7 @@
         "filesystem": "root",
         "path": "/opt/scripts/k8s/init.bash",
         "contents": {
-          "source": "https://raw.githubusercontent.com/jorisscheppers/inaetics-poc/main/scripts/k8s/init.bash",
-          "verification": {}
-        },
-        "mode": 555
-      },
-      {
-        "filesystem": "root",
-        "path": "/opt/scripts/k8s/join-worker.bash",
-        "contents": {
-          "source": "https://raw.githubusercontent.com/jorisscheppers/inaetics-poc/main/scripts/k8s/join-worker.bash",
+          "source": "https://raw.githubusercontent.com/jorisscheppers/inaetics-poc/main/scripts/tftp/tftp.bash",
           "verification": {}
         },
         "mode": 555
