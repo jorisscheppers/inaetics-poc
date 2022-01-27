@@ -3,7 +3,7 @@
 set -xe
 
 curl() {
-	command curl -sSL "$@"
+	command curl -sSLO "$@"
 }
 
 mkdir /var/ftpd
@@ -25,7 +25,8 @@ curl https://raw.githubusercontent.com/jorisscheppers/inaetics-poc/main/PXE/pxel
 
 #memdisk files
 cd /var/ftpd/memdisk
-curl https://github.com/jorisscheppers/inaetics-poc/blob/a091e27ac7637fd32420ef21741b1beb919fbc93/PXE/memdisk.zip | tar -C /var/ftpd/memdisk -xz
+curl https://github.com/jorisscheppers/inaetics-poc/blob/79259e8c64cdff255bf430234ac622a9424b5ca4/PXE/memdisk.tar
+tar -xz memdisk.tar
 
 #flatcar linux latest stable release
 cd /var/ftpd/flatcar_production
