@@ -8,7 +8,6 @@ curlo() {
 
 mkdir /var/ftpd
 mkdir /var/ftpd/pxelinux.cfg
-mkdir /var/ftpd/memdisk
 mkdir /var/ftpd/flatcar_production
 
 #root files
@@ -25,7 +24,7 @@ curlo https://raw.githubusercontent.com/jorisscheppers/inaetics-poc/main/PXE/pxe
 
 #memdisk files
 cd /var/ftpd/
-curl -sSL https://github.com/jorisscheppers/inaetics-poc/raw/79259e8c64cdff255bf430234ac622a9424b5ca4/PXE/memdisk.tar tar -C /var/ftpd/memdisk -xz
+curl -sSL https://github.com/jorisscheppers/inaetics-poc/raw/79259e8c64cdff255bf430234ac622a9424b5ca4/PXE/memdisk.tar | tar -C /var/ftpd/ -xz
 
 #flatcar linux latest stable release
 cd /var/ftpd/flatcar_production
