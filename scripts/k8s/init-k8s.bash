@@ -19,7 +19,7 @@ CNI_VERSION="v0.8.2"
 CRICTL_VERSION="v1.17.0"
 RELEASE_VERSION="v0.4.0"
 DOWNLOAD_DIR=/opt/bin
-nslookup dl.k8s.io
+#nslookup dl.k8s.io
 RELEASE="$(curl -sSL https://dl.k8s.io/release/stable.txt)"
 
 mkdir -p /opt/cni/bin
@@ -43,9 +43,6 @@ rm cilium-linux-amd64.tar.gz{,.sha256sum}
 chmod +x {kubeadm,kubelet,kubectl}
 mv {kubeadm,kubelet,kubectl} $DOWNLOAD_DIR/
 
-systemctl enable --now kubelet
-#systemctl status kubelet
-
 cat <<EOF | tee kubeadm-config.yaml
 apiVersion: kubeadm.k8s.io/v1beta2
 kind: InitConfiguration
@@ -58,6 +55,15 @@ kind: ClusterConfiguration
 controllerManager:
   extraArgs:
     flex-volume-plugin-dir: "/opt/libexec/kubernetes/kubelet-plugins/volume/exec/"
+---
+apiVersion: kubeadm.k8s.io/v1beta2
+kind: InitConfiguration
+nodeRegistration:
+  criSocket: "unix:///run/containerd/containerd.sock
+---
+apiVersion: kubelet.config.k8s.io/v1beta1
+kind: KubeletConfiguration
+  cgroupDriver: systemd
 EOF
 
 # For explicit cgroupdriver selection
@@ -72,12 +78,6 @@ EOF
 # networking:
 #  podSubnet: "10.244.0.0/16"
 
-# For containerd
-# apiVersion: kubeadm.k8s.io/v1beta2
-# kind: InitConfiguration
-# nodeRegistration:
-#  criSocket: "unix:///run/containerd/containerd.sock
-
 export PATH=$PATH:$DOWNLOAD_DIR
 
 kubeadm config images pull
@@ -85,6 +85,9 @@ kubeadm init --config kubeadm-config.yaml
 
 mkdir -p $HOME/.kube
 cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
+
+systemctl enable --now kubelet
+#systemctl status kubelet
 
 kubectl create -f https://raw.githubusercontent.com/cilium/cilium/v1.9.4/install/kubernetes/quick-install.yaml
 
