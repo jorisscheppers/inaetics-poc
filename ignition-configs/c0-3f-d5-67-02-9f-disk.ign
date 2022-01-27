@@ -44,5 +44,13 @@
       }
     ]
   },
-  "systemd": {}
+  "systemd": {
+    "units": [
+      {
+        "contents": "[Unit]\nDescription=Init tftp\nRequires=network-online.target\nAfter=network-online.target\n[Service]\nType=oneshot\nExecStart=/opt/scripts/tftp/tftp.bash\nRemainAfterExit=true\nStandardOutput=journal\n[Install]\nWantedBy=multi-user.target",
+        "enabled": true,
+        "name": "installer.service"
+      }
+    ]
+  }
 }
