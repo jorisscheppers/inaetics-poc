@@ -35,7 +35,7 @@
       },
       {
         "filesystem": "root",
-        "path": "/opt/scripts/k8s/init.bash",
+        "path": "/opt/scripts/tftp/tftp.bash",
         "contents": {
           "source": "https://raw.githubusercontent.com/jorisscheppers/inaetics-poc/main/scripts/tftp/tftp.bash",
           "verification": {}
