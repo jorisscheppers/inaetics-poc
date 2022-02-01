@@ -40,7 +40,7 @@
           "source": "https://raw.githubusercontent.com/jorisscheppers/inaetics-poc/main/scripts/k8s/init.bash",
           "verification": {}
         },
-        "mode": 774
+        "mode": 777
       },
       {
         "filesystem": "root",
@@ -49,7 +49,7 @@
           "source": "https://raw.githubusercontent.com/jorisscheppers/inaetics-poc/main/scripts/k8s/init-k8s.bash",
           "verification": {}
         },
-        "mode": 774
+        "mode": 777
       }
     ]
   },
