@@ -6,6 +6,6 @@ display boot.msg
 
 label flatcar
   menu default
-  kernel flatcar_production/flatcar_production_pxe.vmlinuz
-  initrd flatcar_production/flatcar_production_pxe_image.cpio.gz
+  kernel boot/flatcar_production_pxe.vmlinuz
+  initrd boot/flatcar_production_pxe_image.cpio.gz
   append flatcar.first_boot=1 ignition.config.url=https://raw.githubusercontent.com/jorisscheppers/inaetics-poc/main/ignition-configs/c0-3f-d5-67-01-ab-pxe.ign
