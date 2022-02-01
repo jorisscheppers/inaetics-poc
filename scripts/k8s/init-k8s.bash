@@ -2,8 +2,7 @@
 
 set -xe
 
-systemctl enable docker
-modprobe br_netfilter
+export PATH=$PATH:$DOWNLOAD_DIR
 
 cat <<EOF | tee /etc/modules-load.d/k8s.conf
 br_netfilter
@@ -13,10 +12,6 @@ cat <<EOF | tee /etc/sysctl.d/k8s.conf
 net.bridge.bridge-nf-call-ip6tables = 1
 net.bridge.bridge-nf-call-iptables = 1
 EOF
-sysctl --system
-
-systemctl enable --now kubelet
-#systemctl status kubelet
 
 CNI_VERSION="v0.8.2"
 CRICTL_VERSION="v1.17.0"
@@ -60,6 +55,13 @@ controllerManager:
     flex-volume-plugin-dir: "/opt/libexec/kubernetes/kubelet-plugins/volume/exec/"
 EOF
 
+systemctl enable docker
+modprobe br_netfilter
+sysctl --system
+
+systemctl enable --now kubelet
+#systemctl status kubelet
+
 # For explicit cgroupdriver selection
 # ---
 # kind: KubeletConfiguration
@@ -77,8 +79,6 @@ EOF
 # kind: InitConfiguration
 # nodeRegistration:
 #   criSocket: "unix:///run/containerd/containerd.sock
-
-export PATH=$PATH:$DOWNLOAD_DIR
 
 kubeadm config images pull
 kubeadm init --config kubeadm-config.yaml
