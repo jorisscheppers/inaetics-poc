@@ -2,7 +2,7 @@
 
 set -xe
 
-systemctl enable docker
+#systemctl enable docker
 modprobe br_netfilter
 
 cat <<EOF | tee /etc/modules-load.d/k8s.conf
@@ -55,15 +55,6 @@ kind: ClusterConfiguration
 controllerManager:
   extraArgs:
     flex-volume-plugin-dir: "/opt/libexec/kubernetes/kubelet-plugins/volume/exec/"
----
-apiVersion: kubeadm.k8s.io/v1beta2
-kind: InitConfiguration
-nodeRegistration:
-  criSocket: "unix:///run/containerd/containerd.sock
----
-apiVersion: kubelet.config.k8s.io/v1beta1
-kind: KubeletConfiguration
-  cgroupDriver: systemd
 EOF
 
 # For explicit cgroupdriver selection
@@ -77,6 +68,12 @@ EOF
 # kind: ClusterConfiguration
 # networking:
 #  podSubnet: "10.244.0.0/16"
+
+# ---
+# apiVersion: kubeadm.k8s.io/v1beta2
+# kind: InitConfiguration
+# nodeRegistration:
+#   criSocket: "unix:///run/containerd/containerd.sock
 
 export PATH=$PATH:$DOWNLOAD_DIR
 
