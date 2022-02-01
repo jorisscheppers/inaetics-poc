@@ -1,5 +1,7 @@
 #!/bin/bash
 
+sudo rm -r /var/ftpd
+
 set -xe
 
 curlo() {
