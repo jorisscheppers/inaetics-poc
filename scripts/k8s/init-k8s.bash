@@ -2,7 +2,7 @@
 
 set -xe
 
-#systemctl enable docker
+systemctl enable docker
 modprobe br_netfilter
 
 cat <<EOF | tee /etc/modules-load.d/k8s.conf
@@ -14,6 +14,9 @@ net.bridge.bridge-nf-call-ip6tables = 1
 net.bridge.bridge-nf-call-iptables = 1
 EOF
 sysctl --system
+
+systemctl enable --now kubelet
+#systemctl status kubelet
 
 CNI_VERSION="v0.8.2"
 CRICTL_VERSION="v1.17.0"
@@ -82,9 +85,6 @@ kubeadm init --config kubeadm-config.yaml
 
 mkdir -p $HOME/.kube
 cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
-
-systemctl enable --now kubelet
-#systemctl status kubelet
 
 kubectl create -f https://raw.githubusercontent.com/cilium/cilium/v1.9.4/install/kubernetes/quick-install.yaml
 
