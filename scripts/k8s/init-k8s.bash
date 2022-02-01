@@ -2,8 +2,6 @@
 
 set -xe
 
-export PATH=$PATH:$DOWNLOAD_DIR
-
 cat <<EOF | tee /etc/modules-load.d/k8s.conf
 br_netfilter
 EOF
@@ -78,6 +76,8 @@ EOF
 systemctl enable docker
 modprobe br_netfilter
 sysctl --system
+
+export PATH=$PATH:$DOWNLOAD_DIR
 
 kubeadm config images pull
 kubeadm init --config kubeadm-config.yaml
