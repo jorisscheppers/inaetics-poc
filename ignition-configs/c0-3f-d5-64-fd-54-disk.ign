@@ -56,7 +56,7 @@
   "systemd": {
     "units": [
       {
-        "contents": "[Unit]\nDescription=Init k8s\nRequires=network-online.target\nAfter=network-online.target\n[Service]\nType=oneshot\nExecStart=/opt/scripts/k8s/init-k8s.bash\nRemainAfterExit=true\nStandardOutput=journal\nUser=core\n#Environment=PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/opt/bin\n#Environment=KUBECONFIG=/.kube/config\n[Install]\nWantedBy=multi-user.target",
+        "contents": "[Unit]\nDescription=Init k8s\nRequires=network-online.target\nAfter=network-online.target\n[Service]\nType=oneshot\nExecStart=/usr/bin/sudo /bin/bash /opt/scripts/k8s/init-k8s.bash\nRemainAfterExit=true\nStandardOutput=journal\nUser=core\n#Environment=PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/opt/bin\n#Environment=KUBECONFIG=/.kube/config\n[Install]\nWantedBy=multi-user.target",
         "enabled": true,
         "name": "installer.service"
       }
