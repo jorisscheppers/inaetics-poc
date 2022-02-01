@@ -2,11 +2,11 @@
 
 set -xe
 
-cat <<EOF | tee /etc/modules-load.d/k8s.conf
+sudo cat <<EOF | sudo tee /etc/modules-load.d/k8s.conf
 br_netfilter
 EOF
 
-cat <<EOF | tee /etc/sysctl.d/k8s.conf
+sudo cat <<EOF | sudo tee /etc/sysctl.d/k8s.conf
 net.bridge.bridge-nf-call-ip6tables = 1
 net.bridge.bridge-nf-call-iptables = 1
 EOF
@@ -16,13 +16,13 @@ CRICTL_VERSION="v1.17.0"
 RELEASE_VERSION="v0.4.0"
 DOWNLOAD_DIR=/opt/bin
 #nslookup dl.k8s.io
-RELEASE="$(curl -sSL https://dl.k8s.io/release/stable.txt)"
+RELEASE="$(sudo curl -sSL https://dl.k8s.io/release/stable.txt)"
 
-mkdir -p /opt/cni/bin
-mkdir -p /etc/systemd/system/kubelet.service.d
+sudo mkdir -p /opt/cni/bin
+sudo mkdir -p /etc/systemd/system/kubelet.service.d
 
 curl() {
-	command curl -sSL "$@"
+	command sudo curl -sSL "$@"
 }
 
 curl "https://github.com/containernetworking/plugins/releases/download/${CNI_VERSION}/cni-plugins-linux-amd64-${CNI_VERSION}.tgz" | tar -C /opt/cni/bin -xz
@@ -32,14 +32,14 @@ curl "https://raw.githubusercontent.com/kubernetes/release/${RELEASE_VERSION}/cm
 curl --remote-name-all https://storage.googleapis.com/kubernetes-release/release/${RELEASE}/bin/linux/amd64/{kubeadm,kubelet,kubectl}
 
 curl -L --remote-name-all https://github.com/cilium/cilium-cli/releases/latest/download/cilium-linux-amd64.tar.gz{,.sha256sum}
-sha256sum --check cilium-linux-amd64.tar.gz.sha256sum
+sudo sha256sum --check cilium-linux-amd64.tar.gz.sha256sum
 sudo tar xzvfC cilium-linux-amd64.tar.gz /opt/bin
-rm cilium-linux-amd64.tar.gz{,.sha256sum}
+sudo rm cilium-linux-amd64.tar.gz{,.sha256sum}
 
-chmod +x {kubeadm,kubelet,kubectl}
-mv {kubeadm,kubelet,kubectl} $DOWNLOAD_DIR/
+sudo chmod +x {kubeadm,kubelet,kubectl}
+sudo mv {kubeadm,kubelet,kubectl} $DOWNLOAD_DIR/
 
-cat <<EOF | tee kubeadm-config.yaml
+sudo cat <<EOF | sudo tee kubeadm-config.yaml
 apiVersion: kubeadm.k8s.io/v1beta2
 kind: InitConfiguration
 nodeRegistration:
@@ -73,25 +73,25 @@ EOF
 # nodeRegistration:
 #   criSocket: "unix:///run/containerd/containerd.sock
 
-systemctl enable docker
-modprobe br_netfilter
-sysctl --system
+sudo systemctl enable docker
+sudo modprobe br_netfilter
+sudo sysctl --system
 
-export PATH=$PATH:$DOWNLOAD_DIR
+sudo export PATH=$PATH:$DOWNLOAD_DIR
 
-kubeadm config images pull
-kubeadm init --config kubeadm-config.yaml
+sudo kubeadm config images pull
+sudo kubeadm init --config kubeadm-config.yaml
 
-systemctl enable --now kubelet
+sudo systemctl enable --now kubelet
 
-mkdir -p $HOME/.kube
-cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
+sudo mkdir -p $HOME/.kube
+sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
 
-kubectl create -f https://raw.githubusercontent.com/cilium/cilium/v1.9.4/install/kubernetes/quick-install.yaml
+sudo kubectl create -f https://raw.githubusercontent.com/cilium/cilium/v1.9.4/install/kubernetes/quick-install.yaml
 
-kubectl taint nodes --all node-role.kubernetes.io/master-
-kubectl get pods -A
-kubectl get nodes -o wide
+sudo kubectl taint nodes --all node-role.kubernetes.io/master-
+#kubectl get pods -A
+#kubectl get nodes -o wide
 
-kubectl apply -f https://k8s.io/examples/application/deployment.yaml
-kubectl expose deployment.apps/nginx-deployment
+sudo kubectl apply -f https://k8s.io/examples/application/deployment.yaml
+sudo kubectl expose deployment.apps/nginx-deployment
