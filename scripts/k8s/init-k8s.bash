@@ -55,11 +55,6 @@ controllerManager:
     flex-volume-plugin-dir: "/opt/libexec/kubernetes/kubelet-plugins/volume/exec/"
 EOF
 
-systemctl enable docker
-modprobe br_netfilter
-sysctl --system
-
-systemctl enable --now kubelet
 #systemctl status kubelet
 
 # For explicit cgroupdriver selection
@@ -80,8 +75,14 @@ systemctl enable --now kubelet
 # nodeRegistration:
 #   criSocket: "unix:///run/containerd/containerd.sock
 
+systemctl enable docker
+modprobe br_netfilter
+sysctl --system
+
 kubeadm config images pull
 kubeadm init --config kubeadm-config.yaml
+
+systemctl enable --now kubelet
 
 mkdir -p $HOME/.kube
 cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
