@@ -84,11 +84,14 @@ export PATH=$PATH:$DOWNLOAD_DIR
 
 #pre-pull kubeadm images
 kubeadm config images pull
+wait
 #init kubeadm based on kubeadm-config.yaml 
 kubeadm init --config kubeadm-config.yaml
+wait
 
 #Enable the kubelet
 systemctl enable --now kubelet
+wait
 
 #Copy .kube config to home directory of core user so kubectl works 
 mkdir -p /home/core/.kube
