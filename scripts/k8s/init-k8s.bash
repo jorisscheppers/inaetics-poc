@@ -47,9 +47,9 @@ EOF
 #   criSocket: "unix:///run/containerd/containerd.sock
 
 DOWNLOAD_DIR=/opt/bin
-CNI_VERSION="v0.8.2"
-CRICTL_VERSION="v1.17.0"
-RELEASE_VERSION="v0.4.0"
+CNI_VERSION="v1.0.1"
+CRICTL_VERSION="v1.23.0"
+RELEASE_VERSION="v0.12.0"
 #nslookup dl.k8s.io
 RELEASE="$(curl -sSL https://dl.k8s.io/release/stable.txt)"
 
