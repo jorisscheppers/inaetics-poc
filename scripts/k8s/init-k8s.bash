@@ -94,8 +94,8 @@ systemctl enable --now kubelet
 wait
 
 #Copy .kube config to home directory so kubectl works 
-mkdir -p $HOME/core/.kube
-cp -i /etc/kubernetes/admin.conf $HOME/core/.kube/config
+mkdir -p $HOME/.kube
+cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
 
 #Copy .kube config to home directory of core user so kubectl works 
 mkdir -p /home/core/.kube
