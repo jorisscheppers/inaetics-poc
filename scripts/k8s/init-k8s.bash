@@ -15,17 +15,23 @@ net.bridge.bridge-nf-call-iptables = 1
 EOF
 
 cat <<EOF | tee /config/kubeadm-config.yaml
-apiVersion: kubeadm.k8s.io/v1beta2
+apiVersion: kubeadm.k8s.io/v1beta3
 kind: InitConfiguration
 nodeRegistration:
   kubeletExtraArgs:
     volume-plugin-dir: "/opt/libexec/kubernetes/kubelet-plugins/volume/exec/"
 ---
-apiVersion: kubeadm.k8s.io/v1beta2
+apiVersion: kubeadm.k8s.io/v1beta3
 kind: ClusterConfiguration
+networking:
+  podSubnet: 192.168.0.0/16
 controllerManager:
   extraArgs:
     flex-volume-plugin-dir: "/opt/libexec/kubernetes/kubelet-plugins/volume/exec/"
+---
+kind: KubeletConfiguration
+apiVersion: kubelet.config.k8s.io/v1beta1
+cgroupDriver: $(docker info -f '{{.CgroupDriver}}')
 EOF
 
 #systemctl status kubelet
