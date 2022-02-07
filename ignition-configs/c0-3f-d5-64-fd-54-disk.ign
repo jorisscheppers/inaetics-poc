@@ -31,7 +31,7 @@
           "source": "data:,node1.cluster.local",
           "verification": {}
         },
-        "mode": 420
+        "mode": 272
       },
       {
         "filesystem": "root",
