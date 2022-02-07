@@ -2,6 +2,8 @@
 
 set -xe
 
+mkdir /config
+
 #Create configs, folders and files
 cat <<EOF | tee /etc/modules-load.d/k8s.conf
 br_netfilter
@@ -12,7 +14,7 @@ net.bridge.bridge-nf-call-ip6tables = 1
 net.bridge.bridge-nf-call-iptables = 1
 EOF
 
-cat <<EOF | tee kubeadm-config.yaml
+cat <<EOF | tee /config/kubeadm-config.yaml
 apiVersion: kubeadm.k8s.io/v1beta2
 kind: InitConfiguration
 nodeRegistration:
@@ -45,6 +47,26 @@ EOF
 # kind: InitConfiguration
 # nodeRegistration:
 #   criSocket: "unix:///run/containerd/containerd.sock
+
+#CNI
+cat <<EOF | tee /config/calico.yaml
+# Source: https://docs.projectcalico.org/manifests/custom-resources.yaml
+apiVersion: operator.tigera.io/v1
+kind: Installation
+metadata:
+  name: default
+spec:
+  # Configures Calico networking.
+  calicoNetwork:
+    # Note: The ipPools section cannot be modified post-install.
+    ipPools:
+    - blockSize: 26
+      cidr: 192.168.0.0/16
+      encapsulation: VXLANCrossSubnet
+      natOutgoing: Enabled
+      nodeSelector: all()
+  flexVolumePath: /opt/libexec/kubernetes/kubelet-plugins/volume/exec/
+EOF
 
 DOWNLOAD_DIR=/opt/bin
 CNI_VERSION="v1.0.1"
@@ -85,8 +107,8 @@ export PATH=$PATH:$DOWNLOAD_DIR
 #pre-pull kubeadm images
 kubeadm config images pull
 wait
-#init kubeadm based on kubeadm-config.yaml 
-kubeadm init --config kubeadm-config.yaml
+#init kubeadm based on /config/kubeadm-config.yaml 
+kubeadm init --config /config/kubeadm-config.yaml
 wait
 
 #Enable the kubelet
