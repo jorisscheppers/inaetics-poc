@@ -3,6 +3,8 @@
 set -xe
 
 mkdir /config
+mkdir -p /opt/cni/bin
+mkdir -p /etc/systemd/system/kubelet.service.d
 
 #Create configs, folders and files
 cat <<EOF | tee /etc/modules-load.d/k8s.conf
@@ -54,25 +56,8 @@ EOF
 # nodeRegistration:
 #   criSocket: "unix:///run/containerd/containerd.sock
 
-#CNI
-cat <<EOF | tee /config/calico.yaml
-# Source: https://docs.projectcalico.org/manifests/custom-resources.yaml
-apiVersion: operator.tigera.io/v1
-kind: Installation
-metadata:
-  name: default
-spec:
-  # Configures Calico networking.
-  calicoNetwork:
-    # Note: The ipPools section cannot be modified post-install.
-    ipPools:
-    - blockSize: 26
-      cidr: 192.168.0.0/16
-      encapsulation: VXLANCrossSubnet
-      natOutgoing: Enabled
-      nodeSelector: all()
-  flexVolumePath: /opt/libexec/kubernetes/kubelet-plugins/volume/exec/
-EOF
+
+#Downloads
 
 DOWNLOAD_DIR=/opt/bin
 CNI_VERSION="v1.0.1"
@@ -80,9 +65,6 @@ CRICTL_VERSION="v1.23.0"
 RELEASE_VERSION="v0.12.0"
 #nslookup dl.k8s.io
 RELEASE="$(curl -sSL https://dl.k8s.io/release/stable.txt)"
-
-mkdir -p /opt/cni/bin
-mkdir -p /etc/systemd/system/kubelet.service.d
 
 curl() {
 	command curl -sSL "$@"
@@ -96,6 +78,11 @@ curl --remote-name-all https://storage.googleapis.com/kubernetes-release/release
 
 chmod +x {kubeadm,kubelet,kubectl}
 mv {kubeadm,kubelet,kubectl} $DOWNLOAD_DIR/
+
+curl -L --remote-name-all https://github.com/cilium/cilium-cli/releases/latest/download/cilium-linux-amd64.tar.gz{,.sha256sum}
+sha256sum --check cilium-linux-amd64.tar.gz.sha256sum
+sudo tar xzvfC cilium-linux-amd64.tar.gz /opt/bin
+rm cilium-linux-amd64.tar.gz{,.sha256sum}
 
 
 #Enable system capabilities and initialise Kubernetes components
@@ -130,9 +117,8 @@ mkdir -p /home/core/.kube
 cp -i /etc/kubernetes/admin.conf /home/core/.kube/config
 chmod 744 /home/core/.kube/config
 
-#CREATE CNI
-kubectl create -f https://docs.projectcalico.org/manifests/tigera-operator.yaml
-kubectl apply -f /config/calico.yaml
+cilium install
+wait
 
 kubectl taint nodes --all node-role.kubernetes.io/master-
 #kubectl get pods -A
