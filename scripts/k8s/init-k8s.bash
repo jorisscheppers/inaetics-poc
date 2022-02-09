@@ -70,6 +70,7 @@ curl() {
 	command curl -sSL "$@"
 }
 
+#     fetch and install CNI, CRITCL, kubelet and kubeadm components and kubenernetes latest release
 curl "https://github.com/containernetworking/plugins/releases/download/${CNI_VERSION}/cni-plugins-linux-amd64-${CNI_VERSION}.tgz" | tar -C /opt/cni/bin -xz
 curl "https://github.com/kubernetes-sigs/cri-tools/releases/download/${CRICTL_VERSION}/crictl-${CRICTL_VERSION}-linux-amd64.tar.gz" | tar -C $DOWNLOAD_DIR -xz
 curl "https://raw.githubusercontent.com/kubernetes/release/${RELEASE_VERSION}/cmd/kubepkg/templates/latest/deb/kubelet/lib/systemd/system/kubelet.service" | sed "s:/usr/bin:${DOWNLOAD_DIR}:g" | tee /etc/systemd/system/kubelet.service
@@ -79,10 +80,15 @@ curl --remote-name-all https://storage.googleapis.com/kubernetes-release/release
 chmod +x {kubeadm,kubelet,kubectl}
 mv {kubeadm,kubelet,kubectl} $DOWNLOAD_DIR/
 
+#     fetch and install Helm
+curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | sed "s:/usr/local/bin:${DOWNLOAD_DIR}:g" | bash
+
+#     fetch and install Cilium CLI
 curl -L --remote-name-all https://github.com/cilium/cilium-cli/releases/latest/download/cilium-linux-amd64.tar.gz{,.sha256sum}
 sha256sum --check cilium-linux-amd64.tar.gz.sha256sum
 sudo tar xzvfC cilium-linux-amd64.tar.gz /opt/bin
 rm cilium-linux-amd64.tar.gz{,.sha256sum}
+
 
 
 #Enable system capabilities and initialise Kubernetes components
@@ -119,10 +125,24 @@ chmod 744 /home/core/.kube/config
 
 cilium install
 wait
+cilium hubble enable --ui
+wait
 
 kubectl taint nodes --all node-role.kubernetes.io/master-
-#kubectl get pods -A
-#kubectl get nodes -o wide
 
-kubectl apply -f https://k8s.io/examples/application/deployment.yaml
-kubectl expose deployment.apps/nginx-deployment
+#deploy sample
+#kubectl apply -f https://k8s.io/examples/application/deployment.yaml
+#kubectl expose deployment.apps/nginx-deployment
+
+
+#Create Crossplane deployment
+kubectl create namespace crossplane-system
+
+helm repo add crossplane-stable https://charts.crossplane.io/stable
+helm repo update
+
+helm install crossplane --namespace crossplane-system crossplane-stable/crossplane
+
+#Install Crossplane CLI
+curl "https://raw.githubusercontent.com/crossplane/crossplane/master/install.sh" | sh
+sudo mv kubectl-crossplane $DOWNLOAD_DIR/
