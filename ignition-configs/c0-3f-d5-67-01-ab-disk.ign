@@ -7,14 +7,7 @@
     "timeouts": {},
     "version": "2.3.0"
   },
-  "networkd": {
-    "units": [
-      {
-        "contents": "[Match]\nName=eno1\n\n[Network]\nDNS=10.0.1.53\nAddress=10.0.6.12/20\nGateway=10.0.1.1",
-        "name": "00-eno1.network"
-      }
-    ]
-  },
+  "networkd": {},
   "passwd": {
     "users": [
       {
@@ -42,23 +35,22 @@
       },
       {
         "filesystem": "root",
-        "path": "/opt/scripts/k3s/init.bash",
+        "path": "/opt/k3s-install.sh",
         "contents": {
-          "source": "https://raw.githubusercontent.com/jorisscheppers/inaetics-poc/main/scripts/k3s/init.bash",
+          "source": "https://get.k3s.io",
           "verification": {}
         },
-        "mode": 555
-      },
-      {
-        "filesystem": "root",
-        "path": "/opt/scripts/k3s/join-worker.bash",
-        "contents": {
-          "source": "https://raw.githubusercontent.com/jorisscheppers/inaetics-poc/main/scripts/k3s/join-worker.bash",
-          "verification": {}
-        },
-        "mode": 555
+        "mode": 511
       }
     ]
   },
-  "systemd": {}
+  "systemd": {
+    "units": [
+      {
+        "contents": "[Unit]\nDescription=Run K3s script\nWants = network-online.target\nAfter = network.target network-online.target        \nConditionPathExists=/opt/k3s-install.sh\nConditionPathExists=!/opt/bin/k3s\n[Service]\nType=forking\nTimeoutStartSec=180\nRemainAfterExit=yes\nKillMode=process\nEnvironment=\"K3S_TOKEN=heel_geheim_token\"\nEnvironment=\"INSTALL_K3S_EXEC=--cluster-init\"\nExecStart=/usr/bin/sh -c \"/opt/k3s-install.sh\"\n[Install]\nWantedBy=multi-user.target        \n",
+        "enabled": true,
+        "name": "k3s-install.service"
+      }
+    ]
+  }
 }
