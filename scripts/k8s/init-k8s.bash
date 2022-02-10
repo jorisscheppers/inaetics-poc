@@ -122,10 +122,11 @@ chmod 744 /home/core/.kube/config
 
 cilium install
 wait
-cilium hubble enable --ui
-wait
 
 kubectl taint nodes --all node-role.kubernetes.io/master-
+
+cilium hubble enable --ui
+wait
 
 #deploy sample
 #kubectl apply -f https://k8s.io/examples/application/deployment.yaml
