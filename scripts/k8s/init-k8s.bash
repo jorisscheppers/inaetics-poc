@@ -134,7 +134,6 @@ kubectl taint nodes --all node-role.kubernetes.io/master-
 
 #Create Crossplane deployment
 kubectl create namespace crossplane-system
-echo "PATH: $PATH"
 
 helm repo add crossplane-stable https://charts.crossplane.io/stable
 helm repo update
