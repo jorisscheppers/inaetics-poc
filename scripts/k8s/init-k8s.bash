@@ -133,10 +133,8 @@ wait
 kubectl taint nodes --all node-role.kubernetes.io/master-
 
 #TODO Enable hubble: it gives an error
-cilium hubble enable
-wait
-
-cilium hubble enable --ui
+#cilium hubble enable --ui
+#wait
 
 #deploy sample
 #kubectl apply -f https://k8s.io/examples/application/deployment.yaml
@@ -152,4 +150,4 @@ helm repo update
 helm install crossplane --namespace crossplane-system crossplane-stable/crossplane
 
 #install IG infra
-flux bootstrap git --context default --url=https://github.com/jorisscheppers/inaetics-poc.git --branch=main --path=clusters/infra
+#flux bootstrap git --context default --url=https://github.com/jorisscheppers/inaetics-poc.git --branch=main --path=clusters/infra
