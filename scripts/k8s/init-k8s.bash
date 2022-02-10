@@ -56,10 +56,6 @@ EOF
 # nodeRegistration:
 #   criSocket: "unix:///run/containerd/containerd.sock
 
-
-#augment PATH variable with download dir
-export PATH=$PATH:$DOWNLOAD_DIR
-
 #Downloads
 DOWNLOAD_DIR=/opt/bin
 CNI_VERSION="v1.0.1"
@@ -67,6 +63,9 @@ CRICTL_VERSION="v1.23.0"
 RELEASE_VERSION="v0.12.0"
 #nslookup dl.k8s.io
 RELEASE="$(curl -sSL https://dl.k8s.io/release/stable.txt)"
+
+#augment PATH variable with download dir
+export PATH=$PATH:$DOWNLOAD_DIR
 
 curl() {
 	command curl -sSL "$@"
