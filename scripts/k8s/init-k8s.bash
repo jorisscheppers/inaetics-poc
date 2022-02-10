@@ -90,6 +90,13 @@ sha256sum --check cilium-linux-amd64.tar.gz.sha256sum
 sudo tar xzvfC cilium-linux-amd64.tar.gz /opt/bin
 rm cilium-linux-amd64.tar.gz{,.sha256sum}
 
+#Install Crossplane CLI
+curl "https://raw.githubusercontent.com/crossplane/crossplane/master/install.sh" | sh
+sudo mv kubectl-crossplane $DOWNLOAD_DIR/
+
+#Install Flux binary
+curl -s https://fluxcd.io/install.sh | sed "s:/usr/local/bin:${DOWNLOAD_DIR}:g" | bash
+
 
 #Enable system capabilities and initialise Kubernetes components
 
@@ -125,8 +132,11 @@ wait
 
 kubectl taint nodes --all node-role.kubernetes.io/master-
 
-cilium hubble enable --ui
+#TODO Enable hubble: it gives an error
+cilium hubble enable
 wait
+
+cilium hubble enable --ui
 
 #deploy sample
 #kubectl apply -f https://k8s.io/examples/application/deployment.yaml
@@ -141,6 +151,5 @@ helm repo update
 
 helm install crossplane --namespace crossplane-system crossplane-stable/crossplane
 
-#Install Crossplane CLI
-curl "https://raw.githubusercontent.com/crossplane/crossplane/master/install.sh" | sh
-sudo mv kubectl-crossplane $DOWNLOAD_DIR/
+#install IG infra
+flux bootstrap git --context default --url=https://github.com/jorisscheppers/inaetics-poc.git --branch=main --path=clusters/infra
