@@ -57,8 +57,10 @@ EOF
 #   criSocket: "unix:///run/containerd/containerd.sock
 
 
-#Downloads
+#augment PATH variable with download dir
+export PATH=$PATH:$DOWNLOAD_DIR
 
+#Downloads
 DOWNLOAD_DIR=/opt/bin
 CNI_VERSION="v1.0.1"
 CRICTL_VERSION="v1.23.0"
@@ -90,7 +92,6 @@ sudo tar xzvfC cilium-linux-amd64.tar.gz /opt/bin
 rm cilium-linux-amd64.tar.gz{,.sha256sum}
 
 
-
 #Enable system capabilities and initialise Kubernetes components
 
 #Enable Docker capabilities
@@ -99,9 +100,6 @@ systemctl enable docker
 #enable br_netfilter module
 modprobe br_netfilter
 sysctl --system
-
-#augment PATH variable with download dir
-export PATH=$PATH:$DOWNLOAD_DIR
 
 #pre-pull kubeadm images
 kubeadm config images pull
