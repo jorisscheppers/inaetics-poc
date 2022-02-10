@@ -97,7 +97,7 @@ curl "https://raw.githubusercontent.com/crossplane/crossplane/master/install.sh"
 sudo mv kubectl-crossplane $DOWNLOAD_DIR/
 
 #Install Flux binary
-curl -s https://fluxcd.io/install.sh | sed "s:/usr/local/bin:${DOWNLOAD_DIR}:g" | bash
+curl https://fluxcd.io/install.sh | sed "s:/usr/local/bin:${DOWNLOAD_DIR}:g" | bash
 
 
 #Enable system capabilities and initialise Kubernetes components
