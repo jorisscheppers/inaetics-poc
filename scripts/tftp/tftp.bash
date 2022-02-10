@@ -1,5 +1,7 @@
 #!/bin/bash
 
+docker rm -f $(docker ps -a -q)
+
 sudo rm -r /var/ftpd
 
 set -xe
@@ -26,4 +28,4 @@ curlo https://stable.release.flatcar-linux.net/amd64-usr/current/flatcar_product
 curlo https://stable.release.flatcar-linux.net/amd64-usr/current/flatcar_production_pxe.sh
 
 #run Docker container for TFTP service
-docker run -d -p 69:1069/udp --name tftp-container --env TFTPD_EXTRA_ARGS=--blocksize 1468 --mount type=bind,source=/var/ftpd/flatcar_production,target=/tftpboot/boot --mount type=bind,source=/var/ftpd/pxelinux.cfg,target=/tftpboot/pxelinux.cfg kalaksi/tftpd 
+docker run -d -p 69:1069/udp --name tftp-container --env TFTPD_EXTRA_ARGS="--blocksize 1468" --mount type=bind,source=/var/ftpd/flatcar_production,target=/tftpboot/boot --mount type=bind,source=/var/ftpd/pxelinux.cfg,target=/tftpboot/pxelinux.cfg kalaksi/tftpd 
