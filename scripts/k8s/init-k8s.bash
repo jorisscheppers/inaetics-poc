@@ -34,6 +34,10 @@ controllerManager:
   extraArgs:
     flex-volume-plugin-dir: "/opt/libexec/kubernetes/kubelet-plugins/volume/exec/"
 ---
+apiVersion: kubeproxy.config.k8s.io/v1alpha1
+kind: KubeProxyConfiguration
+nodeport-addresses: 10.0.0.0/20
+---
 kind: KubeletConfiguration
 apiVersion: kubelet.config.k8s.io/v1beta1
 cgroupDriver: $(docker info -f '{{.CgroupDriver}}')
