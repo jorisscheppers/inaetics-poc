@@ -69,8 +69,8 @@ CNI_VERSION="v1.0.1"
 CRICTL_VERSION="v1.23.0"
 RELEASE_VERSION="v0.12.0"
 #nslookup dl.k8s.io
-RELEASE="$(curl -sSL https://dl.k8s.io/release/stable.txt)"
-
+#RELEASE="$(curl -sSL https://dl.k8s.io/release/stable.txt)"
+RELEASE="v1.21.9"
 #augment PATH variable with download dir
 export PATH=$PATH:$DOWNLOAD_DIR
 
