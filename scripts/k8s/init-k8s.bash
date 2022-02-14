@@ -34,16 +34,18 @@ controllerManager:
   extraArgs:
     flex-volume-plugin-dir: "/opt/libexec/kubernetes/kubelet-plugins/volume/exec/"
 ---
-apiVersion: kubeproxy.config.k8s.io/v1alpha1
-kind: KubeProxyConfiguration
-nodePortAddresses: [10.0.0.0/20]
----
 kind: KubeletConfiguration
 apiVersion: kubelet.config.k8s.io/v1beta1
 cgroupDriver: $(docker info -f '{{.CgroupDriver}}')
 EOF
 
 #systemctl status kubelet
+
+# For mitigating bug in binding port to 2 interfaces when IP is not specified. Should be fixed in 1.24
+# ---
+# apiVersion: kubeproxy.config.k8s.io/v1alpha1
+# kind: KubeProxyConfiguration
+# nodePortAddresses: [10.0.0.0/20]
 
 # For explicit cgroupdriver selection
 # ---
