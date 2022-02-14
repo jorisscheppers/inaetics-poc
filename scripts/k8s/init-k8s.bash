@@ -17,13 +17,13 @@ net.bridge.bridge-nf-call-iptables = 1
 EOF
 
 cat <<EOF | tee /config/kubeadm-config.yaml
-apiVersion: kubeadm.k8s.io/v1beta2
+apiVersion: kubeadm.k8s.io/v1beta3
 kind: InitConfiguration
 nodeRegistration:
   kubeletExtraArgs:
     volume-plugin-dir: "/opt/libexec/kubernetes/kubelet-plugins/volume/exec/"
 ---
-apiVersion: kubeadm.k8s.io/v1beta2
+apiVersion: kubeadm.k8s.io/v1beta3
 kind: ClusterConfiguration
 apiServer:
   extraArgs:
@@ -34,18 +34,30 @@ controllerManager:
   extraArgs:
     flex-volume-plugin-dir: "/opt/libexec/kubernetes/kubelet-plugins/volume/exec/"
 ---
+apiVersion: kubeproxy.config.k8s.io/v1alpha1
+kind: KubeProxyConfiguration
+nodePortAddresses: [10.0.0.0/20]
+---
 kind: KubeletConfiguration
 apiVersion: kubelet.config.k8s.io/v1beta1
 cgroupDriver: $(docker info -f '{{.CgroupDriver}}')
 EOF
 
+cat <<EOF | tee /config/storageclass.yaml
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: local-storage
+  annotations:
+    storageclass.kubernetes.io/is-default-class: 'true'
+provisioner: kubernetes.io/no-provisioner
+volumeBindingMode: Immediate
+EOF
+
 #systemctl status kubelet
 
 # For mitigating bug in binding port to 2 interfaces when IP is not specified. Should be fixed in 1.24
-# ---
-# apiVersion: kubeproxy.config.k8s.io/v1alpha1
-# kind: KubeProxyConfiguration
-# nodePortAddresses: [10.0.0.0/20]
+
 
 # For explicit cgroupdriver selection
 # ---
@@ -71,8 +83,8 @@ CNI_VERSION="v1.0.1"
 CRICTL_VERSION="v1.23.0"
 RELEASE_VERSION="v0.12.0"
 #nslookup dl.k8s.io
-#RELEASE="$(curl -sSL https://dl.k8s.io/release/stable.txt)"
-RELEASE="v1.21.9"
+RELEASE="$(curl -sSL https://dl.k8s.io/release/stable.txt)"
+#RELEASE="v1.21.9"
 #augment PATH variable with download dir
 export PATH=$PATH:$DOWNLOAD_DIR
 
@@ -136,6 +148,10 @@ mkdir -p /home/core/.kube
 cp -i /etc/kubernetes/admin.conf /home/core/.kube/config
 chmod 744 /home/core/.kube/config
 
+#apply storageclass config
+kubectl apply -f /config/storageclass.yaml
+
+#install cilium CNI implementation
 cilium install
 wait
 
