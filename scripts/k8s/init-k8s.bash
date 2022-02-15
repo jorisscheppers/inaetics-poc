@@ -2,9 +2,11 @@
 
 set -xe
 
-mkdir /config
+mkdir /configs
+mkdir -p /data/volume
 mkdir -p /opt/cni/bin
 mkdir -p /etc/systemd/system/kubelet.service.d
+
 
 #Create configs, folders and files
 cat <<EOF | tee /etc/modules-load.d/k8s.conf
@@ -16,7 +18,7 @@ net.bridge.bridge-nf-call-ip6tables = 1
 net.bridge.bridge-nf-call-iptables = 1
 EOF
 
-cat <<EOF | tee /config/kubeadm-config.yaml
+cat <<EOF | tee /configs/kubeadm-config.yaml
 apiVersion: kubeadm.k8s.io/v1beta3
 kind: InitConfiguration
 nodeRegistration:
@@ -43,7 +45,7 @@ apiVersion: kubelet.config.k8s.io/v1beta1
 cgroupDriver: $(docker info -f '{{.CgroupDriver}}')
 EOF
 
-cat <<EOF | tee /config/storageclass.yaml
+cat <<EOF | tee /configs/storageclass.yaml
 apiVersion: storage.k8s.io/v1
 kind: StorageClass
 metadata:
@@ -52,6 +54,31 @@ metadata:
     storageclass.kubernetes.io/is-default-class: 'true'
 provisioner: kubernetes.io/no-provisioner
 volumeBindingMode: Immediate
+EOF
+
+cat <<EOF | tee /configs/persistentvolume.yaml
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: local-storage-pv
+spec:
+  capacity:
+    storage: 10Gi
+  volumeMode: Filesystem
+  accessModes:
+  - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: local-storage
+  local:
+    path: /data/volume
+  nodeAffinity:
+    required:
+      nodeSelectorTerms:
+      - matchExpressions:
+        - key: kubernetes.io/hostname
+          operator: In
+          values:
+          - node1.cluster.local
 EOF
 
 #systemctl status kubelet
@@ -131,8 +158,8 @@ sysctl --system
 #pre-pull kubeadm images
 kubeadm config images pull
 wait
-#init kubeadm based on /config/kubeadm-config.yaml 
-kubeadm init --config /config/kubeadm-config.yaml
+#init kubeadm based on /configs/kubeadm-config.yaml 
+kubeadm init --config /configs/kubeadm-config.yaml
 wait
 
 #Enable the kubelet
@@ -149,7 +176,10 @@ cp -i /etc/kubernetes/admin.conf /home/core/.kube/config
 chmod 744 /home/core/.kube/config
 
 #apply storageclass config
-kubectl apply -f /config/storageclass.yaml
+kubectl apply -f /configs/storageclass.yaml
+
+#apply storageclass config
+kubectl apply -f /configs/persistentvolume.yaml
 
 #install cilium CNI implementation
 cilium install
