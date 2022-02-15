@@ -7,6 +7,7 @@ mkdir -p /data/volume1
 mkdir -p /data/volume2
 mkdir -p /data/volume3
 mkdir -p /data/volume4
+mkdir -p /data/volume5
 mkdir -p /opt/cni/bin
 mkdir -p /etc/systemd/system/kubelet.service.d
 
@@ -159,6 +160,31 @@ spec:
           - node1.cluster.local
 EOF
 
+cat <<EOF | tee /configs/persistentvolume5.yaml
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: local-storage-pv5
+spec:
+  capacity:
+    storage: 10Gi
+  volumeMode: Filesystem
+  accessModes:
+  - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: local-storage
+  local:
+    path: /data/volume5
+  nodeAffinity:
+    required:
+      nodeSelectorTerms:
+      - matchExpressions:
+        - key: kubernetes.io/hostname
+          operator: In
+          values:
+          - node1.cluster.local
+EOF
+
 #systemctl status kubelet
 
 # For mitigating bug in binding port to 2 interfaces when IP is not specified. Should be fixed in 1.24
@@ -261,6 +287,7 @@ kubectl apply -f /configs/persistentvolume1.yaml
 kubectl apply -f /configs/persistentvolume2.yaml
 kubectl apply -f /configs/persistentvolume3.yaml
 kubectl apply -f /configs/persistentvolume4.yaml
+kubectl apply -f /configs/persistentvolume5.yaml
 
 #install cilium CNI implementation
 cilium install
