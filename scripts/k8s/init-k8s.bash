@@ -257,7 +257,10 @@ chmod 744 /home/core/.kube/config
 kubectl apply -f /configs/storageclass.yaml
 
 #apply storageclass config
-kubectl apply -f /configs/persistentvolume.yaml
+kubectl apply -f /configs/persistentvolume1.yaml
+kubectl apply -f /configs/persistentvolume2.yaml
+kubectl apply -f /configs/persistentvolume3.yaml
+kubectl apply -f /configs/persistentvolume4.yaml
 
 #install cilium CNI implementation
 cilium install
