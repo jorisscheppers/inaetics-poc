@@ -29,7 +29,7 @@ apiVersion: kubeadm.k8s.io/v1beta3
 kind: ClusterConfiguration
 apiServer:
   extraArgs:
-    service-node-port-range: 25000-35000
+    service-node-port-range: 5000-35000
 networking:
   podSubnet: 192.168.0.0/16
 controllerManager:
