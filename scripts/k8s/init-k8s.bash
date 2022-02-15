@@ -3,7 +3,10 @@
 set -xe
 
 mkdir /configs
-mkdir -p /data/volume
+mkdir -p /data/volume1
+mkdir -p /data/volume2
+mkdir -p /data/volume3
+mkdir -p /data/volume4
 mkdir -p /opt/cni/bin
 mkdir -p /etc/systemd/system/kubelet.service.d
 
@@ -56,11 +59,11 @@ provisioner: kubernetes.io/no-provisioner
 volumeBindingMode: Immediate
 EOF
 
-cat <<EOF | tee /configs/persistentvolume.yaml
+cat <<EOF | tee /configs/persistentvolume1.yaml
 apiVersion: v1
 kind: PersistentVolume
 metadata:
-  name: local-storage-pv
+  name: local-storage-pv1
 spec:
   capacity:
     storage: 10Gi
@@ -70,7 +73,82 @@ spec:
   persistentVolumeReclaimPolicy: Retain
   storageClassName: local-storage
   local:
-    path: /data/volume
+    path: /data/volume1
+  nodeAffinity:
+    required:
+      nodeSelectorTerms:
+      - matchExpressions:
+        - key: kubernetes.io/hostname
+          operator: In
+          values:
+          - node1.cluster.local
+EOF
+
+cat <<EOF | tee /configs/persistentvolume2.yaml
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: local-storage-pv2
+spec:
+  capacity:
+    storage: 10Gi
+  volumeMode: Filesystem
+  accessModes:
+  - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: local-storage
+  local:
+    path: /data/volume2
+  nodeAffinity:
+    required:
+      nodeSelectorTerms:
+      - matchExpressions:
+        - key: kubernetes.io/hostname
+          operator: In
+          values:
+          - node1.cluster.local
+EOF
+
+cat <<EOF | tee /configs/persistentvolume3.yaml
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: local-storage-pv3
+spec:
+  capacity:
+    storage: 10Gi
+  volumeMode: Filesystem
+  accessModes:
+  - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: local-storage
+  local:
+    path: /data/volume3
+  nodeAffinity:
+    required:
+      nodeSelectorTerms:
+      - matchExpressions:
+        - key: kubernetes.io/hostname
+          operator: In
+          values:
+          - node1.cluster.local
+EOF
+
+cat <<EOF | tee /configs/persistentvolume4.yaml
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: local-storage-pv4
+spec:
+  capacity:
+    storage: 10Gi
+  volumeMode: Filesystem
+  accessModes:
+  - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: local-storage
+  local:
+    path: /data/volume4
   nodeAffinity:
     required:
       nodeSelectorTerms:
