@@ -1,0 +1,109 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: minikube-informationgrid
+  namespace: informationgrid
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: minikube-informationgrid
+  template:
+    metadata:
+      labels:
+        app: minikube-informationgrid
+    spec:
+      containers:
+      - env:
+        - name: MAX_METASPACE_SIZE
+          value: 256m
+        - name: MIN_HEAPSPACE_SIZE
+          value: 2048m
+        - name: MAX_HEAPSPACE_SIZE
+          value: 2048m
+        - name: maxCookieAge
+          value: "259200000"
+        - name: tokenExpiration
+          value: "259200000"
+        - name: tokenRenewal
+          value: "86400000"
+        - name: secureContextId
+          value: secured
+        - name: authServicePrefix
+          value: /ig-auth
+        - name: mongoURI
+          value: mongodb://mongodb-headless:27017/minikube-informationgrid?retryWrites=false
+        - name: kafkaBootstrapServers
+          value: kafka:9092
+        - name: kafkaZookeeperConnect
+          value: kafka-zookeeper:2181
+        - name: kafkaPrefix
+          value: master
+        - name: kafkaMetaDataMaxAge
+          value: "5000"
+        - name: kafkaHealthCheckInterval
+          value: "120000"
+        - name: nodeManagerHttpPort
+          value: "8090"
+        - name: baseurl
+          value: http://node1.cluster.local:8081/ig/ui
+        - name: participateInMasterElection
+          value: "true"
+        - name: iggraphtype
+          value: inmemory
+        - name: RESET_SCHEMA_REPOSITORY
+          value: "false"
+        - name: eventConsumerServiceThreads
+          value: "7"
+        - name: eventConsumerServiceMaxBatchSize
+          value: "250"
+        - name: searchIndexMode
+          value: "rest"
+        - name: searchPrefix
+          value: "igmaster"
+        - name: searchHttpHosts
+          value: elasticsearch-master:9200
+        - name: ig_demo_data
+          value: "false"
+        - name: ig_development_mode
+          value: "true"
+        - name: igbaseurl
+          value: http://node1.cluster.local:8081/ig/ui
+        - name: igsocketurl
+          value: wss://node1.cluster.local:8081/ig
+        - name: eventConsumerServicePartitions
+          value: "6"
+        - name: ig_default_admin_password
+          value: admin
+        - name: ig_schema_development_mode
+          value: "true"
+        - name: ig_development_show_internal_configurations
+          value: "false"
+        - name: WEBCONSOLE_PASSWORD
+          value: "admin"
+        - name: ig_default_elasticsearch_version
+          value: "elasticsearch-7.14.1"
+        image: informationgrid-docker.luminis.net/informationgrid-container-registry:master
+        imagePullPolicy: Always
+        name: minikube-informationgrid
+        ports:
+        - containerPort: 8080
+          name: web
+          protocol: TCP
+        - containerPort: 9090
+          name: admin
+          protocol: TCP
+        - containerPort: 11311
+          name: telnet
+          protocol: TCP          
+        resources:
+          limits:
+            cpu: "2"
+            memory: 3Gi
+          requests:
+            cpu: 500m
+            memory: 3Gi
+      restartPolicy: Always
+      imagePullSecrets:
+        - name: informationgrid-pullsecret
