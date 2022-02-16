@@ -50,6 +50,24 @@
           "verification": {}
         },
         "mode": 511
+      },
+      {
+        "filesystem": "root",
+        "path": "/configs/ig-nodeport.yaml",
+        "contents": {
+          "source": "https://raw.githubusercontent.com/jorisscheppers/inaetics-poc/main/clusters/ig-nodeport.yaml",
+          "verification": {}
+        },
+        "mode": 511
+      },
+      {
+        "filesystem": "root",
+        "path": "/configs/informationgrid-deployment.yaml",
+        "contents": {
+          "source": "https://raw.githubusercontent.com/jorisscheppers/inaetics-poc/main/clusters/informationgrid-deployment.yaml",
+          "verification": {}
+        },
+        "mode": 511
       }
     ]
   },
