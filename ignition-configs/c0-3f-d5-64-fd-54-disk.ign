@@ -41,13 +41,27 @@
           "verification": {}
         },
         "mode": 511
+      },
+      {
+        "filesystem": "root",
+        "path": "/opt/scripts/k8s/download-components.bash",
+        "contents": {
+          "source": "https://raw.githubusercontent.com/jorisscheppers/inaetics-poc/main/scripts/k8s/download-components.bash",
+          "verification": {}
+        },
+        "mode": 511
       }
     ]
   },
   "systemd": {
     "units": [
       {
-        "contents": "[Unit]\nDescription=Init k8s\nRequires=network-online.target\nAfter=network-online.target\n[Service]\nType=oneshot\nExecStart=/opt/scripts/k8s/init-k8s.bash\nRemainAfterExit=true\nStandardOutput=journal\n#User=core\n[Install]\nWantedBy=multi-user.target",
+        "contents": "[Unit]\nDescription=Download components\nRequires=network-online.target\nAfter=network-online.target\n[Service]\nType=oneshot\nExecStart=/opt/scripts/k8s/download-components.bash\nRemainAfterExit=true\nStandardOutput=journal\n[Install]\nWantedBy=multi-user.target\n",
+        "enabled": true,
+        "name": "download.service"
+      },
+      {
+        "contents": "[Unit]\nDescription=Init k8s\nRequires=download.service\nAfter=download.service\n[Service]\nType=oneshot\nExecStart=/opt/scripts/k8s/init-k8s.bash\nRemainAfterExit=true\nStandardOutput=journal\n[Install]\nWantedBy=multi-user.target",
         "enabled": true,
         "name": "installer.service"
       }
