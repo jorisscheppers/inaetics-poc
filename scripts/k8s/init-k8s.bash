@@ -2,6 +2,9 @@
 
 set -xe
 
+DOWNLOAD_DIR=/opt/bin
+export PATH=$PATH:$DOWNLOAD_DIR
+
 #Enable system capabilities and initialise Kubernetes components
 
 #Enable Docker capabilities
