@@ -1,1 +1,0 @@
-kubeadm join --discovery-token-unsafe-skip-ca-verification --discovery-token inaeti.csjointoken12345 --control-plane 10.0.6.10:6443
