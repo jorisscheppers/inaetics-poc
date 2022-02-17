@@ -2,7 +2,6 @@
 
 set -xe
 
-mkdir /configs
 mkdir -p /data/volume1
 mkdir -p /data/volume2
 mkdir -p /data/volume3
