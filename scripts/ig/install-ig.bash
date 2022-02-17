@@ -2,6 +2,9 @@
 
 set -xe
 
+DOWNLOAD_DIR=/opt/bin
+export PATH=$PATH:$DOWNLOAD_DIR
+
 curl http://10.0.6.12:8080/exports.bash | tee /configs/exports.bash
 
 source /configs/exports.bash
