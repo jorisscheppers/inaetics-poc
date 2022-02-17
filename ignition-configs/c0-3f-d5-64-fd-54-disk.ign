@@ -53,6 +53,15 @@
       },
       {
         "filesystem": "root",
+        "path": "/opt/scripts/ig/install-ig.bash",
+        "contents": {
+          "source": "https://raw.githubusercontent.com/jorisscheppers/inaetics-poc/main/scripts/ig/install-ig.bash",
+          "verification": {}
+        },
+        "mode": 511
+      },
+      {
+        "filesystem": "root",
         "path": "/configs/ig-nodeport.yaml",
         "contents": {
           "source": "https://raw.githubusercontent.com/jorisscheppers/inaetics-poc/main/clusters/ig-nodeport.yaml",
@@ -79,9 +88,14 @@
         "name": "download.service"
       },
       {
-        "contents": "[Unit]\nDescription=Init k8s\nRequires=download.service\nAfter=download.service\n[Service]\nType=oneshot\nExecStart=/opt/scripts/k8s/init-k8s.bash\nRemainAfterExit=true\nStandardOutput=journal\n[Install]\nWantedBy=multi-user.target",
+        "contents": "[Unit]\nDescription=Init k8s\nRequires=download.service\nAfter=download.service\n[Service]\nType=oneshot\nExecStart=/opt/scripts/k8s/init-k8s.bash\nRemainAfterExit=true\nStandardOutput=journal\n[Install]\nWantedBy=multi-user.target\n",
         "enabled": true,
         "name": "installer.service"
+      },
+      {
+        "contents": "[Unit]\nDescription=Install IG\nRequires=installer.service\nAfter=installer.service\n[Service]\nType=oneshot\nExecStart=/opt/scripts/ig/install-ig.bash\nRemainAfterExit=true\nStandardOutput=journal\n[Install]\nWantedBy=multi-user.target",
+        "enabled": true,
+        "name": "installer-ig.service"
       }
     ]
   }
