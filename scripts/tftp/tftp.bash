@@ -36,4 +36,4 @@ docker run -d -p 69:1069/udp --name tftp-container --env TFTPD_EXTRA_ARGS="--blo
 # copy exports.bash to tftp server, folder /share
 
 #run nginx container for exports file
-docker run -p8080:80 --name httpshare -v /share:/usr/share/nginx/html:ro -d nginx
+docker run -p8000:80 --name httpshare -v /share:/usr/share/nginx/html:ro -d nginx
