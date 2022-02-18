@@ -37,3 +37,21 @@ docker run -d -p 69:1069/udp --name tftp-container --env TFTPD_EXTRA_ARGS="--blo
 
 #run nginx container for exports file
 docker run -p8000:80 --name httpshare -v /share:/usr/share/nginx/html:ro -d nginx
+
+#run Unifi local controller
+#TODO save configs (and secrets in export.bash) to USB flashdrive to keep data after a reinstall
+docker run -d \
+  --name=unifi-controller \
+  -e PUID=1000 \
+  -e PGID=1000 \
+  -e MEM_LIMIT=1024 \
+  -e MEM_STARTUP=1024 \
+  -p 3478:3478/udp \
+  -p 10001:10001/udp \
+  -p 8080:8080 \
+  -p 8443:8443 \
+  -p 1900:1900/udp `#optional` \
+  -p 5514:5514/udp `#optional` \
+  -v /unifi:/config \
+  --restart unless-stopped \
+  lscr.io/linuxserver/unifi-controller
