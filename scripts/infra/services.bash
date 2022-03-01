@@ -6,7 +6,7 @@ for container_id in $(docker ps -q); do docker stop $container_id; done
 for container_id in $(docker ps -a -q); do docker rm $container_id; done
 
 #remove shared folders
-sudo rm -rf /var/ftpd
+sudo rm -rf /var/ftpd/pxelinux.cfg
 sudo rm -rf /share
 
 #set curlo command
