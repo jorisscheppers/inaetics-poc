@@ -37,7 +37,7 @@
         "filesystem": "root",
         "path": "/opt/scripts/tftp/tftp.bash",
         "contents": {
-          "source": "https://raw.githubusercontent.com/jorisscheppers/inaetics-poc/main/scripts/tftp/tftp.bash",
+          "source": "http://infra.cluster.local/scripts/tftp/tftp.bash",
           "verification": {}
         },
         "mode": 555

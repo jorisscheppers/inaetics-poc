@@ -37,7 +37,7 @@
         "filesystem": "root",
         "path": "/opt/scripts/k8s/init-k8s.bash",
         "contents": {
-          "source": "https://raw.githubusercontent.com/jorisscheppers/inaetics-poc/main/scripts/k8s/init-k8s.bash",
+          "source": "http://infra.cluster.local/scripts/k8s/init-k8s.bash",
           "verification": {}
         },
         "mode": 511
@@ -46,7 +46,7 @@
         "filesystem": "root",
         "path": "/opt/scripts/k8s/download-components.bash",
         "contents": {
-          "source": "https://raw.githubusercontent.com/jorisscheppers/inaetics-poc/main/scripts/k8s/download-components.bash",
+          "source": "http://infra.cluster.local/scripts/k8s/download-components.bash",
           "verification": {}
         },
         "mode": 511
@@ -55,7 +55,7 @@
         "filesystem": "root",
         "path": "/opt/scripts/ig/install-ig.bash",
         "contents": {
-          "source": "https://raw.githubusercontent.com/jorisscheppers/inaetics-poc/main/scripts/ig/install-ig.bash",
+          "source": "http://infra.cluster.local/scripts/ig/install-ig.bash",
           "verification": {}
         },
         "mode": 511
@@ -64,7 +64,7 @@
         "filesystem": "root",
         "path": "/configs/ig-nodeport.yaml",
         "contents": {
-          "source": "https://raw.githubusercontent.com/jorisscheppers/inaetics-poc/main/clusters/ig-nodeport.yaml",
+          "source": "http://infra.cluster.local/clusters/ig-nodeport.yaml",
           "verification": {}
         },
         "mode": 511
@@ -73,7 +73,7 @@
         "filesystem": "root",
         "path": "/configs/informationgrid-deployment.yaml",
         "contents": {
-          "source": "https://raw.githubusercontent.com/jorisscheppers/inaetics-poc/main/clusters/informationgrid-deployment.yaml",
+          "source": "http://infra.cluster.local/clusters/informationgrid-deployment.yaml",
           "verification": {}
         },
         "mode": 511
