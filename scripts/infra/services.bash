@@ -9,11 +9,6 @@ for container_id in $(docker ps -a -q); do docker rm $container_id; done
 sudo rm -rf /var/ftpd/pxelinux.cfg
 sudo rm -rf /share
 
-#set curlo command
-curlo() {
-	command sudo curl -sSLO "$@"
-}
-
 #create ftpd dirs
 sudo mkdir -p /var/ftpd
 

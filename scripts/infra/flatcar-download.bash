@@ -1,9 +1,14 @@
 #!/bin/bash
 set -xe
 
+#set curlo command
+curlo() {
+	command sudo curl -sSLO "$@"
+}
+
 #recreate flatcar_production folder
 sudo rm -rf /var/ftpd/flatcar_production
-sudo mkdir /var/ftpd/flatcar_production
+sudo mkdir -p /var/ftpd/flatcar_production
 
 #flatcar linux latest stable release
 cd /var/ftpd/flatcar_production
