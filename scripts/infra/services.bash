@@ -16,18 +16,10 @@ curlo() {
 
 #create ftpd dirs
 sudo mkdir /var/ftpd
-sudo mkdir /var/ftpd/flatcar_production
 
 #create http shared dir
 sudo mkdir /share
 sudo mkdir /share/secrets
-
-#flatcar linux latest stable release
-cd /var/ftpd/flatcar_production
-curlo https://stable.release.flatcar-linux.net/amd64-usr/current/flatcar_production_pxe_image.cpio.g
-curlo https://stable.release.flatcar-linux.net/amd64-usr/current/flatcar_production_pxe_grub.efi
-curlo https://stable.release.flatcar-linux.net/amd64-usr/current/flatcar_production_pxe.vmlinuz
-curlo https://stable.release.flatcar-linux.net/amd64-usr/current/flatcar_production_pxe.sh
 
 #copy relevant sources to destination dirs
 #pxelinux config files for each known node
