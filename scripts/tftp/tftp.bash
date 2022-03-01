@@ -2,40 +2,38 @@
 set -xe
 
 #stop and remove all running containers
-docker rm -f $(docker ps -a -q)
+for container_id in $(docker ps -q); do docker stop $container_id; done
+for container_id in $(docker ps -a -q); do docker rm $container_id; done
 
 #remove shared folders
-sudo rm -r /var/ftpd
-sudo rm -f /share
+sudo rm -rf /var/ftpd
+sudo rm -rf /share
 
 #set curlo command
 curlo() {
-	command curl -sSLO "$@"
+	command sudo curl -sSLO "$@"
 }
 
 #create ftpd dirs
 sudo mkdir /var/ftpd
-sudo mkdir /var/ftpd/pxelinux.cfg
 sudo mkdir /var/ftpd/flatcar_production
 
 #create http shared dir
 sudo mkdir /share
 sudo mkdir /share/secrets
-sudo mkdir /share/ignition-configs
-sudo mkdir /share/scripts
 
 #flatcar linux latest stable release
 cd /var/ftpd/flatcar_production
-curlo https://stable.release.flatcar-linux.net/amd64-usr/current/flatcar_production_pxe_image.cpio.gz
+curlo https://stable.release.flatcar-linux.net/amd64-usr/current/flatcar_production_pxe_image.cpio.g
 curlo https://stable.release.flatcar-linux.net/amd64-usr/current/flatcar_production_pxe_grub.efi
 curlo https://stable.release.flatcar-linux.net/amd64-usr/current/flatcar_production_pxe.vmlinuz
 curlo https://stable.release.flatcar-linux.net/amd64-usr/current/flatcar_production_pxe.sh
 
 #copy relevant sources to destination dirs
 #pxelinux config files for each known node
-sudo cp -r /sources/inaetics-poc/PXE/pxelinux.cfg /var/ftpd/pxelinux.cfg
+sudo cp -r /sources/inaetics-poc/PXE/pxelinux.cfg /var/ftpd/
 #ignition configs for each known node
-sudo cp -r /sources/inaetics-poc/ignition-configs /share/ignition-configs
+sudo cp -r /sources/inaetics-poc/ignition-configs /share
 #all scripts
 sudo cp -r /sources/inaetics-poc/scripts /share/scripts
 
@@ -46,4 +44,4 @@ docker run -d -p 69:1069/udp --name tftp-container --env TFTPD_EXTRA_ARGS="--blo
 # copy exports.bash to tftp server, folder /share/secrets
 
 #run nginx container for exports file
-docker run -p8000:80 --name httpshare -v /share:/usr/share/nginx/html:ro -d nginx
+docker run -p 8000:80 --name httpshare -v /share:/usr/share/nginx/html:ro -d nginx
