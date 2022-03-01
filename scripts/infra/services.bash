@@ -15,11 +15,11 @@ curlo() {
 }
 
 #create ftpd dirs
-sudo mkdir /var/ftpd
+sudo mkdir -p /var/ftpd
 
 #create http shared dir
-sudo mkdir /share
-sudo mkdir /share/secrets
+sudo mkdir -p /share
+sudo mkdir -p /share/secrets
 
 #copy relevant sources to destination dirs
 #pxelinux config files for each known node
