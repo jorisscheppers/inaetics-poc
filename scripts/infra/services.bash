@@ -30,7 +30,8 @@ sudo cp -r /sources/inaetics-poc/scripts /share
 sudo cp -r /sources/inaetics-poc/configs /share
 #copy cluster info to /share
 sudo cp -r /sources/inaetics-poc/clusters /share
-
+#copy exports
+sudo cp /sources/exports.bash /share/secrets
 
 #run Docker container for DNS and DHCP services
 docker run -d --net=host --name=dhcpdns --cap-add=NET_ADMIN --mount type=bind,source=/share/configs/dnsmasq.conf,target=/etc/dnsmasq.conf,readonly strm/dnsmasq 
