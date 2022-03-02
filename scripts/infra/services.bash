@@ -24,11 +24,14 @@ sudo cp -r /sources/inaetics-poc/ignition-configs /share
 #all scripts
 sudo cp -r /sources/inaetics-poc/scripts /share/scripts
 
+#run Docker container for DNS and DHCP services
+docker run -d -p 53:53/udp -p 67:67/udp --name dhcpdns --cap-add=NET_ADMIN --mount type=bind,source=/share/configs/dnsmasq.conf,target=/etc/dnsmasq.conf,readonly strm/dnsmasq 
+
 #run Docker container for TFTP service
-docker run -d -p 69:1069/udp --name tftp-container --env TFTPD_EXTRA_ARGS="--blocksize 1468" --mount type=bind,source=/var/ftpd/flatcar_production,target=/tftpboot/boot --mount type=bind,source=/var/ftpd/pxelinux.cfg,target=/tftpboot/pxelinux.cfg kalaksi/tftpd 
+docker run -d -p 69:1069/udp --name tftp-container --env TFTPD_EXTRA_ARGS="--blocksize 1468" --mount type=bind,source=/var/ftpd/flatcar_production,target=/tftpboot/boot,readonly --mount type=bind,source=/var/ftpd/pxelinux.cfg,target=/tftpboot/pxelinux.cfg,readonly kalaksi/tftpd 
 
 #MANUAL STEP:
 # copy exports.bash to tftp server, folder /share/secrets
 
 #run nginx container for exports file
-docker run -p 8000:80 --name httpshare -v /share:/usr/share/nginx/html:ro -d nginx
+docker run -d -p 8000:80 --name httpshare -v /share:/usr/share/nginx/html:ro nginx
