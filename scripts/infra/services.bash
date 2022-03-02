@@ -27,7 +27,9 @@ sudo cp -r /sources/inaetics-poc/ignition-configs /share
 #all scripts
 sudo cp -r /sources/inaetics-poc/scripts /share
 #dnsmasq.conf
-sudo cp -r /sources/inaetics-poc/configs /share/
+sudo cp -r /sources/inaetics-poc/configs /share
+#copy cluster info to /share
+sudo cp -r /sources/inaetics-poc/clusters /share
 
 
 #run Docker container for DNS and DHCP services
