@@ -16,13 +16,19 @@ sudo mkdir -p /var/ftpd
 sudo mkdir -p /share
 sudo mkdir -p /share/secrets
 
+#(re)create configs folder
+
+
 #copy relevant sources to destination dirs
 #pxelinux config files for each known node
 sudo cp -r /sources/inaetics-poc/PXE/pxelinux.cfg /var/ftpd/
 #ignition configs for each known node
 sudo cp -r /sources/inaetics-poc/ignition-configs /share
 #all scripts
-sudo cp -r /sources/inaetics-poc/scripts /share/scripts
+sudo cp -r /sources/inaetics-poc/scripts /share
+#dnsmasq.conf
+sudo cp /sources/inaetics-poc/configs /share/
+
 
 #run Docker container for DNS and DHCP services
 docker run -d -p 53:53/udp -p 67:67/udp --name dhcpdns --cap-add=NET_ADMIN --mount type=bind,source=/share/configs/dnsmasq.conf,target=/etc/dnsmasq.conf,readonly strm/dnsmasq 
