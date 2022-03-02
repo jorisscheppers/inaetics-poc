@@ -31,7 +31,7 @@ sudo cp -r /sources/inaetics-poc/configs /share/
 
 
 #run Docker container for DNS and DHCP services
-docker run -d -p 53:53/udp -p 53:53/tcp -p 67:67/udp -p 67:67/tcp --name dhcpdns --cap-add=NET_ADMIN --mount type=bind,source=/share/configs/dnsmasq.conf,target=/etc/dnsmasq.conf,readonly strm/dnsmasq 
+docker run -d --net=host --name=dhcpdns --cap-add=NET_ADMIN --mount type=bind,source=/share/configs/dnsmasq.conf,target=/etc/dnsmasq.conf,readonly strm/dnsmasq 
 
 #run Docker container for TFTP service
 docker run -d -p 69:1069/udp --name tftp-container --env TFTPD_EXTRA_ARGS="--blocksize 1468" --mount type=bind,source=/var/ftpd/flatcar_production,target=/tftpboot/boot,readonly --mount type=bind,source=/var/ftpd/pxelinux.cfg,target=/tftpboot/pxelinux.cfg,readonly kalaksi/tftpd 
