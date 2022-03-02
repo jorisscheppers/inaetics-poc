@@ -5,7 +5,7 @@ set -xe
 DOWNLOAD_DIR=/opt/bin
 export PATH=$PATH:$DOWNLOAD_DIR
 
-curl http://10.0.60.3:8000/exports.bash | tee /configs/exports.bash
+curl http://infra.cluster.local/secrets/exports.bash | tee /configs/exports.bash
 
 source /configs/exports.bash
 
