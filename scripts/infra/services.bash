@@ -34,16 +34,16 @@ sudo cp -r /sources/inaetics-poc/clusters /share
 sudo cp /sources/exports.bash /share/secrets
 
 #run Docker container for DNS and DHCP services
-docker run -d --net=host --name=dhcpdns --cap-add=NET_ADMIN --mount type=bind,source=/share/configs/dnsmasq.conf,target=/etc/dnsmasq.conf,readonly strm/dnsmasq 
+docker run -d --net=host --name=dhcpdns --restart=always --cap-add=NET_ADMIN --mount type=bind,source=/share/configs/dnsmasq.conf,target=/etc/dnsmasq.conf,readonly strm/dnsmasq 
 
 #run Docker container for TFTP service
-docker run -d -p 69:1069/udp --name tftp-container --env TFTPD_EXTRA_ARGS="--blocksize 1468" --mount type=bind,source=/var/ftpd/flatcar_production,target=/tftpboot/boot,readonly --mount type=bind,source=/var/ftpd/pxelinux.cfg,target=/tftpboot/pxelinux.cfg,readonly kalaksi/tftpd 
+docker run -d -p 69:1069/udp --name tftp-container --restart=always --env TFTPD_EXTRA_ARGS="--blocksize 1468" --mount type=bind,source=/var/ftpd/flatcar_production,target=/tftpboot/boot,readonly --mount type=bind,source=/var/ftpd/pxelinux.cfg,target=/tftpboot/pxelinux.cfg,readonly kalaksi/tftpd 
 
 #MANUAL STEP:
 # copy exports.bash to tftp server, folder /share/secrets
 
 #run nginx container for exports file
-docker run -d -p 80:80 --name httpshare -v /share:/usr/share/nginx/html:ro nginx
+docker run -d -p 80:80 --name httpshare --restart=always -v /share:/usr/share/nginx/html:ro nginx
 
 #run local docker registry for IG infra images
 docker run -d -p 5000:5000 --restart=always --name registry registry:2
