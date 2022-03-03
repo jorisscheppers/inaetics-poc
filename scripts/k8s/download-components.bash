@@ -41,7 +41,7 @@ controllerManager:
 ---
 apiVersion: kubeproxy.config.k8s.io/v1alpha1
 kind: KubeProxyConfiguration
-nodePortAddresses: 10.0.100.0/24
+nodePortAddresses: [10.0.100.0/24]
 ---
 kind: KubeletConfiguration
 apiVersion: kubelet.config.k8s.io/v1beta1
