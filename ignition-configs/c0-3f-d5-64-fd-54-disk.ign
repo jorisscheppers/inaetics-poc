@@ -35,6 +35,15 @@
       },
       {
         "filesystem": "root",
+        "path": "/etc/docker/daemon.json",
+        "contents": {
+          "source": "http://infra.cluster.local/configs/daemon.json",
+          "verification": {}
+        },
+        "mode": 272
+      },
+      {
+        "filesystem": "root",
         "path": "/opt/scripts/k8s/init-k8s.bash",
         "contents": {
           "source": "http://infra.cluster.local/scripts/k8s/init-k8s.bash",
