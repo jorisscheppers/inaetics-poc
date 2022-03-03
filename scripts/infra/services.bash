@@ -30,6 +30,8 @@ sudo cp -r /sources/inaetics-poc/scripts /share
 sudo cp -r /sources/inaetics-poc/configs /share
 #copy cluster info to /share
 sudo cp -r /sources/inaetics-poc/clusters /share
+#copy archives to /share
+sudo cp -r /sources/inaetics-poc/archives /share
 #copy exports
 sudo cp /sources/exports.bash /share/secrets
 
@@ -48,7 +50,7 @@ docker run -d -p 80:80 --name httpshare --restart=always -v /share:/usr/share/ng
 #run local docker registry for IG infra images
 docker run -d -p 5000:5000 --restart=always --name registry registry:2
 
-REGISTRY="infra.cluster.local"
+REGISTRY="infra.cluster.local:5000"
 
 docker pull bitnami/bitnami-shell:10-debian-10-r199
 docker pull bitnami/elasticsearch:7.14.2-debian-10-r1
