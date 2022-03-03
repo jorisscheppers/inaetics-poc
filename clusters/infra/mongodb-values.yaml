@@ -1,0 +1,14 @@
+global:
+  imageRegistry: brampouwelse
+architecture: replicaset
+arbiter:
+  enabled: false
+replicaCount: 1
+auth: 
+  enabled: false
+externalAccess:
+  enabled: false
+  service:
+    type: NodePort
+    nodePorts:
+      - 27017

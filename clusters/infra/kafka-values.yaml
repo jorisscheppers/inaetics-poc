@@ -1,0 +1,17 @@
+global:
+  imageRegistry: brampouwelse
+
+deleteTopicEnable: true
+zookeeperConnectionTimeoutMs: 30000
+externalAccess:
+  enabled: true
+  service:
+    type: NodePort
+    nodePorts:
+      - 9092
+    useHostIPs: true
+zookeeper:
+  service:
+    type: NodePort
+    nodePorts:
+      client: 2181
