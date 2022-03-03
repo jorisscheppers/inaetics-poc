@@ -1,5 +1,5 @@
 global:
-  imageRegistry: brampouwelse
+  imageRegistry: infra.cluster.local
 architecture: replicaset
 arbiter:
   enabled: false
