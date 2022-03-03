@@ -1,5 +1,5 @@
 global:
-  imageRegistry: infra.cluster.local
+  imageRegistry: infra.cluster.local:5000
 security:
   enabled: true
   elasticPassword: informationgrid
