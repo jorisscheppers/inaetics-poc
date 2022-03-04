@@ -28,7 +28,7 @@
         "filesystem": "root",
         "path": "/etc/hostname",
         "contents": {
-          "source": "data:,node3.cluster.local",
+          "source": "data:,infra.cluster.local",
           "verification": {}
         },
         "mode": 420
