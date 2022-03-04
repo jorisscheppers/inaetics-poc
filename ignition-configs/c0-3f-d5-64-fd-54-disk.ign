@@ -92,17 +92,17 @@
   "systemd": {
     "units": [
       {
-        "contents": "[Unit]\nDescription=Download components\nRequires=network-online.target\nAfter=network-online.target\n[Service]\nType=oneshot\nExecStart=/opt/scripts/k8s/download-components.bash\nRemainAfterExit=true\nStandardOutput=journal\n[Install]\nWantedBy=multi-user.target\n",
+        "contents": "[Unit]\nDescription=Download components\nRequires=network-online.target\nAfter=network-online.target\nConditionFirstBoot=true\n[Service]\nType=oneshot\nExecStart=/opt/scripts/k8s/download-components.bash\nRemainAfterExit=true\nStandardOutput=journal\n[Install]\nWantedBy=multi-user.target\n",
         "enabled": true,
         "name": "download.service"
       },
       {
-        "contents": "[Unit]\nDescription=Init k8s\nRequires=download.service\nAfter=download.service\n[Service]\nType=oneshot\nExecStart=/opt/scripts/k8s/init-k8s.bash\nRemainAfterExit=true\nStandardOutput=journal\n[Install]\nWantedBy=multi-user.target\n",
+        "contents": "[Unit]\nDescription=Init k8s\nRequires=download.service\nAfter=download.service\nConditionFirstBoot=true\n[Service]\nType=oneshot\nExecStart=/opt/scripts/k8s/init-k8s.bash\nRemainAfterExit=true\nStandardOutput=journal\n[Install]\nWantedBy=multi-user.target\n",
         "enabled": true,
         "name": "installer.service"
       },
       {
-        "contents": "[Unit]\nDescription=Install IG\nRequires=installer.service\nAfter=installer.service\n[Service]\nType=oneshot\nExecStart=/opt/scripts/ig/install-ig.bash\nRemainAfterExit=true\nStandardOutput=journal\n[Install]\nWantedBy=multi-user.target",
+        "contents": "[Unit]\nDescription=Install IG\nRequires=installer.service\nAfter=installer.service\nConditionFirstBoot=true\n[Service]\nType=oneshot\nExecStart=/opt/scripts/ig/install-ig.bash\nRemainAfterExit=true\nStandardOutput=journal\n[Install]\nWantedBy=multi-user.target",
         "enabled": true,
         "name": "installer-ig.service"
       }
