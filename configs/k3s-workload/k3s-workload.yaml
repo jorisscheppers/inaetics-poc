@@ -1,0 +1,27 @@
+apiVersion: kubernetes.crossplane.io/v1alpha1
+kind: Object
+metadata:
+  name: k3s-workload
+spec:
+  forProvider:
+    manifest:
+      apiVersion: apps/v1
+      kind: Deployment
+      metadata:
+        name: k3s-workload
+        namespace: k3s-workload-ns
+      spec:
+        selector:
+          matchLabels:
+            app: k3s-workload
+        replicas: 1
+        template:
+          metadata:
+            labels:
+              app: k3s-workload
+          spec:
+            containers:
+            - name: k3s-workload
+              image: infra.cluster.local:5000/k3sworkload:1
+  providerConfigRef:
+    name: k3s-provider

@@ -1,0 +1,11 @@
+apiVersion: kubernetes.crossplane.io/v1alpha1
+kind: ProviderConfig
+metadata:
+  name: k3s-provider
+spec:
+  credentials:
+    source: Secret
+    secretRef:
+      namespace: default
+      name: k3s-secret
+      key: kubeconfig
