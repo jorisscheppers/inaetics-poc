@@ -1,0 +1,4 @@
+mirrors:
+  infra.cluster.local:
+    endpoint:
+      - "http://infra.cluster.local:5000"

@@ -35,6 +35,15 @@
       },
       {
         "filesystem": "root",
+        "path": "/etc/rancher/k3s",
+        "contents": {
+          "source": "http://infra.cluster.local/configs/k3s/registries.yaml",
+          "verification": {}
+        },
+        "mode": 420
+      },
+      {
+        "filesystem": "root",
         "path": "/opt/k3s-install.sh",
         "contents": {
           "source": "https://get.k3s.io",
