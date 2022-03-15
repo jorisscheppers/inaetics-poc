@@ -1,4 +1,4 @@
 mirrors:
-  infra.cluster.local:
+  infra.cluster.local:5000:
     endpoint:
       - "http://infra.cluster.local:5000"
