@@ -35,7 +35,7 @@
       },
       {
         "filesystem": "root",
-        "path": "/etc/rancher/k3s",
+        "path": "/etc/rancher/k3s/registries.yaml",
         "contents": {
           "source": "http://infra.cluster.local/configs/k3s/registries.yaml",
           "verification": {}
