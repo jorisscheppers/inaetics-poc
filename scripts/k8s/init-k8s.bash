@@ -47,6 +47,8 @@ kubectl apply -f /configs/persistentvolume5.yaml
 #install cilium CNI implementation
 cilium install
 wait
+cilium hubble enable --ui
+wait
 
 kubectl taint nodes --all node-role.kubernetes.io/master-
 
