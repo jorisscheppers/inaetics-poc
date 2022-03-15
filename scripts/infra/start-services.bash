@@ -66,3 +66,7 @@ docker push $REGISTRY/bitnami/elasticsearch:7.14.2-debian-10-r1
 docker push $REGISTRY/bitnami/kafka:2.8.1-debian-10-r31
 docker push $REGISTRY/bitnami/mongodb:4.4.10-debian-10-r15
 docker push $REGISTRY/bitnami/zookeeper:3.7.0-debian-10-r188
+
+
+docker build -t infra.cluster.local:5000/k3sworkload:1 -f k3s-workload.dockerfile /sources/inaetics-poc/docker-images/
+docker push infra.cluster.local:5000/k3sworkload:1
