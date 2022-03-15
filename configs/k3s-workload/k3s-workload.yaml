@@ -23,5 +23,8 @@ spec:
             containers:
             - name: k3s-workload
               image: infra.cluster.local:5000/k3sworkload:1
+              env:
+              - name: IG_ENDPOINT
+                value: "10.0.100.101:8081"
   providerConfigRef:
     name: k3s-provider
