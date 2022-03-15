@@ -1,0 +1,11 @@
+default flatcar
+prompt 1
+timeout 15
+
+display boot.msg
+
+label flatcar
+  menu default
+  kernel boot/flatcar_production_pxe.vmlinuz
+  initrd boot/flatcar_production_pxe_image.cpio.gz
+  append flatcar.first_boot=1 ignition.config.url=http://infra.cluster.local/ignition-configs/c0-3f-d5-66-d2-04-pxe.ign
