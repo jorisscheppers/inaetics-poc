@@ -61,7 +61,7 @@
         "name": "k3s-install.service"
       },
       {
-        "contents": "[Unit]\nDescription=Copy k3s yaml to home directory\nWants=multi-user.target\nAfter=multi-user.target\nConditionPathExists=/etc/rancher/k3s\n[Service]\nType=oneshot\nExecStart=cp /etc/rancher/k3s/k3s.yaml ~/\n[Install]\nWantedBy=multi-user.target \n",
+        "contents": "[Unit]\nDescription=Copy k3s yaml to home directory\nWants=multi-user.target\nAfter=multi-user.target\nConditionPathExists=/etc/rancher/k3s\n[Service]\nType=oneshot\nExecStart=cp /etc/rancher/k3s/k3s.yaml /home/core\n[Install]\nWantedBy=multi-user.target \n",
         "enabled": true,
         "name": "k3s-yaml-copy.service"
       }
