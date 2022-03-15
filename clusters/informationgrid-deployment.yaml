@@ -84,7 +84,7 @@ spec:
           value: "admin"
         - name: ig_default_elasticsearch_version
           value: "elasticsearch-7.14.1"
-        image: informationgrid-docker.luminis.net/informationgrid-container-registry:master-1283
+        image: infra.cluster.local:5000/informationgrid-container-registry:master-1283
         imagePullPolicy: Always
         name: minikube-informationgrid
         ports:
