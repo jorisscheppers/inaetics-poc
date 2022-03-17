@@ -10,6 +10,10 @@ sudo rm -rf /share/*
 sudo mkdir -p /share
 sudo mkdir -p /share/secrets
 
+#stop and remove all running containers
+for container_id in $(docker ps -q); do docker stop $container_id; done
+for container_id in $(docker ps -a -q); do docker rm $container_id; done
+
 #(re)create configs folder
 
 #copy relevant sources to destination dirs
@@ -28,9 +32,7 @@ sudo cp -r /sources/inaetics-poc/archives /share
 #copy exports
 sudo cp /sources/exports.bash /share/secrets
 
-#stop and remove all running containers
-for container_id in $(docker ps -q); do docker stop $container_id; done
-for container_id in $(docker ps -a -q); do docker rm $container_id; done
+
 
 #run Docker container for DNS and DHCP services
 docker run -d --net=host --name=dhcpdns --restart=always --cap-add=NET_ADMIN --mount type=bind,source=/share/configs/dnsmasq.conf,target=/etc/dnsmasq.conf,readonly strm/dnsmasq 
