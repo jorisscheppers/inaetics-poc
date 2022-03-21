@@ -34,7 +34,7 @@ apiServer:
   extraArgs:
     service-node-port-range: 2000-35000
 networking:
-  podSubnet: 192.168.0.0/16
+  podSubnet: 10.1.1.0/24
 controllerManager:
   extraArgs:
     flex-volume-plugin-dir: "/opt/libexec/kubernetes/kubelet-plugins/volume/exec/"
