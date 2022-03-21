@@ -44,21 +44,21 @@
       },
       {
         "filesystem": "root",
-        "path": "/opt/k3s-install.sh",
-        "contents": {
-          "source": "https://get.k3s.io",
-          "verification": {}
-        },
-        "mode": 511
-      },
-      {
-        "filesystem": "root",
         "path": "/etc/rancher/k3s/config.yaml",
         "contents": {
           "source": "http://infra.cluster.local/configs/k3s/config.yaml",
           "verification": {}
         },
         "mode": 420
+      },
+      {
+        "filesystem": "root",
+        "path": "/opt/k3s-install.sh",
+        "contents": {
+          "source": "https://get.k3s.io",
+          "verification": {}
+        },
+        "mode": 511
       }
     ]
   },
@@ -70,7 +70,7 @@
         "name": "k3s-install.service"
       },
       {
-        "contents": "[Unit]\nDescription=Copy k3s yaml to home directory\nWants=multi-user.target\nAfter=multi-user.target\nConditionPathExists=/etc/rancher/k3s\n[Service]\nType=oneshot\nExecStart=cp /etc/rancher/k3s/k3s.yaml ~/\n[Install]\nWantedBy=multi-user.target \n",
+        "contents": "[Unit]\nDescription=Copy k3s yaml to home directory\nWants=multi-user.target\nAfter=After=k3s-install.service\nConditionPathExists=/etc/rancher/k3s\n[Service]\nType=oneshot\nExecStart=cp /etc/rancher/k3s/k3s.yaml /home/core \u0026\u0026 chmod 644 /home/core/k3s.yaml\n[Install]\nWantedBy=multi-user.target \n",
         "enabled": true,
         "name": "k3s-yaml-copy.service"
       }
