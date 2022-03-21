@@ -50,13 +50,22 @@
           "verification": {}
         },
         "mode": 511
+      },
+      {
+        "filesystem": "root",
+        "path": "/etc/rancher/k3s/config.yaml",
+        "contents": {
+          "source": "http://infra.cluster.local/configs/k3s/config.yaml",
+          "verification": {}
+        },
+        "mode": 420
       }
     ]
   },
   "systemd": {
     "units": [
       {
-        "contents": "[Unit]\nDescription=Run K3s script\nWants = network-online.target\nAfter = network.target network-online.target        \nConditionPathExists=/opt/k3s-install.sh\nConditionPathExists=!/opt/bin/k3s\n[Service]\nType=forking\nTimeoutStartSec=180\nRemainAfterExit=yes\nKillMode=process\nEnvironment=\"K3S_TOKEN=heel_geheim_token\"\nEnvironment='INSTALL_K3S_EXEC=--cluster-init --cluster-cidr \"10.1.103.0/24\"'\nExecStart=/usr/bin/sh -c \"/opt/k3s-install.sh\"\n[Install]\nWantedBy=multi-user.target     \n",
+        "contents": "[Unit]\nDescription=Run K3s script\nWants = network-online.target\nAfter = network.target network-online.target        \nConditionPathExists=/opt/k3s-install.sh\nConditionPathExists=!/opt/bin/k3s\n[Service]\nType=forking\nTimeoutStartSec=180\nRemainAfterExit=yes\nKillMode=process\nEnvironment=\"K3S_TOKEN=heel_geheim_token\"\nEnvironment=\"INSTALL_K3S_EXEC=--cluster-init\"\nExecStart=/usr/bin/sh -c \"/opt/k3s-install.sh\"\n[Install]\nWantedBy=multi-user.target     \n",
         "enabled": true,
         "name": "k3s-install.service"
       },
