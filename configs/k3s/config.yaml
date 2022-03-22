@@ -1,3 +1,1 @@
 cluster-cidr: "10.1.103.0/24"
-cluster-name: k3s-103
-cluster-id: "103"

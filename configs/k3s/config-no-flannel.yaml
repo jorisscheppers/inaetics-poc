@@ -1,4 +1,2 @@
 cluster-cidr: "10.1.104.0/24"
 flannel-backend: "none"
-cluster-name: k3s-104
-cluster-id: "104"
