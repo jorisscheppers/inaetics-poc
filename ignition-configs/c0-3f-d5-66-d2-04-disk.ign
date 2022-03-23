@@ -65,7 +65,7 @@
   "systemd": {
     "units": [
       {
-        "contents": "[Unit]\nDescription=Run K3s script\nWants = network-online.target\nAfter = network.target network-online.target        \nConditionPathExists=/opt/k3s-install.sh\nConditionPathExists=!/opt/bin/k3s\n[Service]\nType=forking\nTimeoutStartSec=180\nRemainAfterExit=yes\nKillMode=process\nEnvironment=\"K3S_TOKEN=heel_geheim_token\"\nEnvironment=\"INSTALL_K3S_EXEC='--disable traefik --flannel-backend=none --disable-network-policy --cluster-init'\"\nEnvironment=\"K3S_KUBECONFIG_MODE=644\"\nExecStart=/usr/bin/sh -c \"/opt/k3s-install.sh\"\n[Install]\nWantedBy=multi-user.target     \n",
+        "contents": "[Unit]\nDescription=Run K3s script\nWants = network-online.target\nAfter = network.target network-online.target        \nConditionPathExists=/opt/k3s-install.sh\nConditionPathExists=!/opt/bin/k3s\n[Service]\nType=forking\nTimeoutStartSec=180\nRemainAfterExit=yes\nKillMode=process\nEnvironment=\"K3S_TOKEN=heel_geheim_token\"\nEnvironment='INSTALL_K3S_EXEC=\"--disable traefik --flannel-backend=none --disable-network-policy --cluster-init\"'\nEnvironment=\"K3S_KUBECONFIG_MODE=644\"\nExecStart=/usr/bin/sh -c \"/opt/k3s-install.sh\"\n[Install]\nWantedBy=multi-user.target     \n",
         "enabled": true,
         "name": "k3s-install.service"
       },
