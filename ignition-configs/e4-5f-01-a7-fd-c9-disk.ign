@@ -1,0 +1,48 @@
+{
+  "ignition": {
+    "config": {},
+    "security": {
+      "tls": {}
+    },
+    "timeouts": {},
+    "version": "2.3.0"
+  },
+  "networkd": {},
+  "passwd": {
+    "users": [
+      {
+        "groups": [
+          "sudo",
+          "docker"
+        ],
+        "name": "core",
+        "sshAuthorizedKeys": [
+          "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQCcHJRix7TW2x7Z38fXLp8Gx34yFeDpWdFMs1hU88Hr81TyQc7L8Rky18KT682iVm4wofAvrv+QaZxZehbE49AqK+OjHo5hBHvpR/+/Ugn+ZI2IlGzUPcRV3LUg43q/2c283IctebRtzOgbrutkE/SuFHtfUiSDbST7XfQdRXSBAnhwip9f/zbEFzoPsPfblpX+haGCCjse7p/cleZFlUzKuPCFsZKpVwxJBLw3zW1mWGwpJ8BWJimDyt2K1AEozK18ZDRVXMtSHyedkZYiaT/kGoAJ+km/Pjw0ql5fVVOCv5uWqBSsHdXKyAv835btwCGoeKQwzQzq8k2flGFaNVVosWma33GyId4OF69xfQcey5LMSDWy8sYjDFhjRpL8ve0sU6qxOmL4V5JctEZz2ph9f2Z9tD9PwOxD8FM10ClJNM4+EWHkAgOWfMU9qF7PbTwfH2TWAkl9XA/sMxPYcdxFbGt0abDpL4wZ0Hm+xHPi3S2KJJyl5XWWllXSvnpEHcU="
+        ]
+      }
+    ]
+  },
+  "storage": {
+    "files": [
+      {
+        "filesystem": "root",
+        "path": "/etc/hostname",
+        "contents": {
+          "source": "data:,rpi.cluster.local",
+          "verification": {}
+        },
+        "mode": 272
+      },
+      {
+        "filesystem": "root",
+        "path": "/etc/docker/daemon.json",
+        "contents": {
+          "source": "http://infra.cluster.local/configs/daemon.json",
+          "verification": {}
+        },
+        "mode": 272
+      }
+    ]
+  },
+  "systemd": {}
+}
